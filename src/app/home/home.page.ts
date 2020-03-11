@@ -10,7 +10,7 @@ import * as L from 'leaflet';
 export class HomePage {
   map: any;
   distanceMap: any;
-  position: any;
+  userPosition: any;
   markerPlaceToGo: any;
 
   //Img variables.............................................................
@@ -54,14 +54,14 @@ export class HomePage {
 
     this.map.locate({ setView: true, watch: true }).on("locationfound", (e: any) => {
       // Consultamos si existe y si ya existe le cambiamos la posición  
-      if (this.position != undefined) { 
-        this.position.setLatLng([e.latitude, e.longitude]); 
+      if (this.userPosition != undefined) { 
+        this.userPosition.setLatLng([e.latitude, e.longitude]); 
         this.map.setView([e.latitude, e.longitude], 30);// Calculamos la distancia entre la posición actual y el marcador 
         this.distanceMap = Math.round(this.map.distance([e.latitude, e.longitude], this.markerPlaceToGo.getLatLng()));
         // Colocamos la distancia dentro de un Popup 
-        this.position.bindPopup("Estás a " + this.distanceMap + " metros del objetivo.").openPopup(); 
+        this.userPosition.bindPopup("Estás a " + this.distanceMap + " metros del objetivo.").openPopup(); 
       } else { 
-        this.position = L.circle([e.latitude, e.longitude], {radius: 5}).addTo(this.map); 
+        this.userPosition = L.circle([e.latitude, e.longitude], {radius: 5}).addTo(this.map); 
         this.map.setView([e.latitude, e.longitude], 30);  
       } 
     });
