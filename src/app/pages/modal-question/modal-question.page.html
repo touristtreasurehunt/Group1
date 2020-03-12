@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Question</ion-title>
+    <ion-buttons>
+      <ion-button (click)="close()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <ion-card>
+    <ion-card-content>
+      <ion-list>
+        <ion-radio-group value="grape">
+          <ion-list-header>
+            <p>Question?</p>
+          </ion-list-header>
+          <ion-item>
+            <ion-label>Apple</ion-label>
+            <ion-radio slot="start" color="success" value="apple"></ion-radio>
+          </ion-item>
+      
+          <ion-item>
+            <ion-label>Grape</ion-label>
+            <ion-radio slot="start" color="danger" value="grape"></ion-radio>
+          </ion-item>
+      
+          <ion-item>
+            <ion-label>Cherry</ion-label>
+            <ion-radio slot="start" color="danger" value="cherry"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

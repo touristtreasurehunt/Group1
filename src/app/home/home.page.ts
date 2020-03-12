@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import * as L from 'leaflet'; 
+import * as L from 'leaflet';
+
+import { ModalController } from '@ionic/angular';
+import { ModalQuestionPage } from '../pages/modal-question/modal-question.page';
 
 
 @Component({
@@ -47,7 +50,7 @@ export class HomePage {
 
   //..............................................................................
 
-  constructor() {}
+  constructor(public modalController: ModalController) {}
 
   ionViewDidEnter() {
     this.map = L.map('map').setView([43.2603479, -2.9334110], 16); 
@@ -212,6 +215,17 @@ export class HomePage {
   }  
 
   //.............................................................................
-  
 
+  //QUESTION.............................................................
+
+  // showModal() {
+  //   console.log('show modal');
+  // }
+  async showModal() {
+    const modal = await this.modalController.create({
+      component: ModalQuestionPage
+    });
+    clearInterval(this.keepUpdated);
+    return await modal.present();
+  }
 }
