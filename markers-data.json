@@ -2,7 +2,7 @@
   {
     "name": "Alfredo Kraus Auditory",
     "geolocation": { "lat": 28.130006, "lng": -15.448792 },
-    "img": { "url": "alfredo_kraus_auditory.png", "alt": "Alfredo Kraus Auditory" },
+    "img": { "url": "alfredo_kraus_auditory.jpg", "alt": "Alfredo Kraus Auditory" },
     "question": "What's the name of the gorgon who is behind the auditory?",
     "options": { "correct": "Medusa", "badOption": "Esteno", "anotherBadOption": "Euríale" },
     "information": "..."
