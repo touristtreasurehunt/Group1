@@ -223,7 +223,17 @@ export class HomePage {
   // }
   async showModal() {
     const modal = await this.modalController.create({
-      component: ModalQuestionPage
+      component: ModalQuestionPage,
+      componentProps: {
+        data: {
+          answer1: 'answer1',
+          answer2: 'answer2',
+          answer3: 'answer3',
+        },
+        answer: {
+          rightAnswer: 'answer3'
+        }
+      }
     });
     clearInterval(this.keepUpdated);
     return await modal.present();

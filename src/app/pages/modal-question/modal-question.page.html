@@ -9,28 +9,28 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="modalQuestion">
   
   <ion-card>
     <ion-card-content>
       <ion-list>
-        <ion-radio-group value="grape">
+        <ion-radio-group>
           <ion-list-header>
             <p>Question?</p>
           </ion-list-header>
-          <ion-item>
-            <ion-label>Apple</ion-label>
-            <ion-radio slot="start" color="success" value="apple"></ion-radio>
+          <ion-item (click)="checkRightAnswer(data.answer1)">
+            <ion-label>{{data.answer1}}</ion-label>
+            <ion-radio class="answer1" slot="start" [color]="rightColor" value="answer1"></ion-radio>
+          </ion-item>
+
+          <ion-item (click)="checkRightAnswer(data.answer2)">
+            <ion-label>{{data.answer2}}</ion-label>
+            <ion-radio class="answer2" slot="start" [color]="rightColor" value="answer2"></ion-radio>
           </ion-item>
       
-          <ion-item>
-            <ion-label>Grape</ion-label>
-            <ion-radio slot="start" color="danger" value="grape"></ion-radio>
-          </ion-item>
-      
-          <ion-item>
-            <ion-label>Cherry</ion-label>
-            <ion-radio slot="start" color="danger" value="cherry"></ion-radio>
+          <ion-item (click)="checkRightAnswer(data.answer3)">
+            <ion-label>{{data.answer3}}</ion-label>
+            <ion-radio class="answer3" slot="start" [color]="rightColor" value="answer3"></ion-radio>
           </ion-item>
         </ion-radio-group>
       </ion-list>
