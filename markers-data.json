@@ -2,15 +2,15 @@
   {
     "name": "Alfredo Kraus Auditory",
     "geolocation": { "lat": 28.130006, "lng": -15.448792 },
-    "img": { "url": "alfredo_kraus_auditory.jpg", "alt": "Alfredo Kraus Auditory" },
+    "img": { "url": "alfredo_kraus_auditory.png", "alt": "Alfredo Kraus Auditory" },
     "question": "What's the name of the gorgon who is behind the auditory?",
     "options": { "correct": "Medusa", "badOption": "Stheno", "anotherBadOption": "Euryale" },
-    "information": "..."
+    "information": "The Alfredo Kraus Auditorium first opened its doors to the public on December 5, 1997. Since then, this space, which is named after the most international Canarian tenor and most loved by the general public, has become a benchmark for the culture in the capital of Gran Canaria, essential for holding congresses and all kinds of events, and an emblem of Las Palmas de Gran Canaria around the world. The building that houses the Alfredo Kraus Auditorium, the work of the architect Oscar Tusquetsy with the sculptural intervention of Juan Bordes, is one of the most unique and representative buildings in Las Palmas de Gran Canaria. Located at the end of Las Canteras beach, this isolated and autonomous fortress was devised as a lighthouse to mark and protect the city. In the Symphony Hall, in addition to the huge window that opens between the armchair patio and the sea, there is a spectacular organ that, with its 2,750 tubes, is one of the largest in the Canary Islands and the only layman on the island of Gran Canaria ."
   },
   {
-    "name": "",
-    "geolocation": { "lat": 1, "lng": 1 },
-    "img": { "url": ".png", "alt": "" },
+    "name": "Perez Galdos Theatre",
+    "geolocation": { "lat": 28.103379, "lng": -15.413827 },
+    "img": { "url": "perez_galdos_theatre.png", "alt": "Perez Galdos Theatre" },
     "question": "?",
     "options": { "correct": "1", "badOption": "2", "anotherBadOption": "3" },
     "information": ""
