@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Alfredo Kraus Auditory",
+    "geolocation": { "lat": 28.130006, "lng": -15.448792 },
+    "img": { "url": "alfredo_kraus_auditory.png", "alt": "Alfredo Kraus Auditory" },
+    "question": "?",
+    "options": { "correct": "Medusa", "badOption": "Esteno", "anotherBadOption": "Euríale" },
+    "information": ""
+  },
+  {
+    "name": "",
+    "geolocation": { "lat": 1, "lng": 1 },
+    "img": { "url": ".png", "alt": "" },
+    "question": "?",
+    "options": { "correct": "1", "badOption": "2", "anotherBadOption": "3" },
+    "information": ""
+  },
+  {
+    "name": "",
+    "geolocation": { "lat": 1, "lng": 1 },
+    "img": { "url": ".png", "alt": "" },
+    "question": "?",
+    "options": { "correct": "1", "badOption": "2", "anotherBadOption": "3" },
+    "information": ""
+  },
+  {
+    "name": "",
+    "geolocation": { "lat": 1, "lng": 1 },
+    "img": { "url": ".png", "alt": "" },
+    "question": "?",
+    "options": { "correct": "1", "badOption": "2", "anotherBadOption": "3" },
+    "information": ""
+  }
+]
