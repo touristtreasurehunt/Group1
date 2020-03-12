@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import * as L from 'leaflet'; 
 
+import * as markers from "../../../markers-data.json";
 
 @Component({
   selector: 'app-home',
