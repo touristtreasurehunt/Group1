@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title class="ion-text-center">Photo Collection</ion-title>
-    <ion-buttons>
+    <ion-buttons slot="start">
       <ion-button (click)="goToHome()">
-        Back
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
+    <ion-title class="ion-text-center">Photo Collection</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -21,7 +21,7 @@
         <!-- <img src="../../../assets/img/laspalmasGC.jpg" alt="">
       </ion-col> -->
       <ion-col size="6" *ngFor="let photo of imgLink">
-        <img [src]="photo" />
+        <img [src]="photo" (click)="showModal()"/>
       </ion-col>
     </ion-row>
   </ion-grid>

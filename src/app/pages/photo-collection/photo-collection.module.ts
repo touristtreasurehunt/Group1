@@ -8,7 +8,10 @@ import { PhotoCollectionPageRoutingModule } from './photo-collection-routing.mod
 
 import { PhotoCollectionPage } from './photo-collection.page';
 
+// import { InfoImagePage } from '../info-image/info-image.page';
+
 @NgModule({
+  entryComponents: [],
   imports: [
     CommonModule,
     FormsModule,
