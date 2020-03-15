@@ -20,7 +20,7 @@ export class AlertRightAnswerComponent implements OnInit {
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Correct Answer',
-      subHeader: 'Congratulations!',
+      subHeader: 'Congratulations! 👏',
       message: 'Go to Photo Collection',
       buttons: [
         {
