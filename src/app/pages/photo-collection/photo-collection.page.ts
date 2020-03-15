@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
+import { InfoImagePage } from '../info-image/info-image.page';
 
 @Component({
   selector: 'app-photo-collection',
@@ -15,6 +16,7 @@ export class PhotoCollectionPage implements OnInit {
     private navCtrl: NavController,
     private router: Router,
     private storage: Storage,
+    public modalController: ModalController
   ) {}
 
   ngOnInit() {
@@ -32,5 +34,22 @@ export class PhotoCollectionPage implements OnInit {
       this.imgLink = imgList;
       // this.imgLink = `../../../assets/img/${imgList[0]}`;
     });
+  }
+
+  async showModal() {
+    const modal = await this.modalController.create({
+      component: InfoImagePage,
+      // componentProps: {
+      //   data: {
+      //     answer1: "answer1",
+      //     answer2: "answer2",
+      //     answer3: "answer3"
+      //   },
+      //   answer: {
+      //     rightAnswer: "answer3"
+      //   }
+      // }
+    });
+    return await modal.present();
   }
 }

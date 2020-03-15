@@ -12,6 +12,10 @@ const routes: Routes = [
     path: 'photo-collection',
     loadChildren: () => import('./pages/photo-collection/photo-collection.module').then( m => m.PhotoCollectionPageModule)
   },
+  {
+    path: 'info-image',
+    loadChildren: () => import('./pages/info-image/info-image.module').then( m => m.InfoImagePageModule)
+  },
 ];
 
 @NgModule({

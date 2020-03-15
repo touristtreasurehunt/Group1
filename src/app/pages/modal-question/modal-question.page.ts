@@ -48,7 +48,9 @@ export class ModalQuestionPage implements OnInit {
 
     if (answerValue === this.answer.rightAnswer) {
       this.rightColor = 'success';
-      this.rightAnswer.presentAlert();
+      setTimeout(() => {
+        this.rightAnswer.presentAlert();
+      }, 800);
     } else {
       this.rightColor = 'danger';
     }
