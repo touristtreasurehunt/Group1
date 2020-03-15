@@ -3,18 +3,24 @@ import * as L from 'leaflet';
 
 import { ModalController } from '@ionic/angular';
 import { ModalQuestionPage } from '../pages/modal-question/modal-question.page';
+import { DataService } from '../services/data.service';
+import { Storage } from '@ionic/storage';
+
 
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  styleUrls: ['home.page.scss']
 })
 export class HomePage {
   map: any;
   distanceMap: any;
   position: any;
   markerPlaceToGo: any;
+
+  imgLink: any;
+  markerId = 0;
 
   //Img variables.............................................................
 
@@ -44,34 +50,70 @@ export class HomePage {
 
   firtDistance: object = {
     distance: { isDistance: false }
-  }
+  };
 
   keepUpdated: any;
 
   //..............................................................................
 
-  constructor(public modalController: ModalController) {}
+  constructor(
+    public modalController: ModalController,
+    private data: DataService,
+    private storage: Storage
+  ) {
+    this.imgLink = `../../../assets/img/${
+      this.data.getAllData()[this.markerId].img
+    }`;
+  }
 
   ionViewDidEnter() {
-    this.map = L.map('map').setView([43.2603479, -2.9334110], 16); 
+    // this.imgLink = `../../../assets/img/${this.data.getAllData()[0].img}`;
+    console.log('id', this.data.getAllData()[this.markerId].id);
+    this.storage.set('info', [
+      { id: this.data.getAllData()[this.markerId].id }
+    ]);
+    this.storage.set('currentMarkerID', this.markerId);
+    console.log(this.imgLink);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map); 
+    if (this.map) {
+      console.log('borrar mapa');
+      this.map.remove();
+    }
 
-    this.markerPlaceToGo = L.marker([28.130006,-15.448792], {draggable: false}).addTo(this.map); 
+    this.map = L.map('map').setView([43.2603479, -2.933411], 16);
 
-    this.map.locate({ setView: true, watch: true }).on("locationfound", (e: any) => {
-      // Consultamos si existe y si ya existe le cambiamos la posición  
-      if (this.position != undefined) { 
-        this.position.setLatLng([e.latitude, e.longitude]); 
-        this.map.setView([e.latitude, e.longitude], 30);// Calculamos la distancia entre la posición actual y el marcador 
-        this.distanceMap = Math.round(this.map.distance([e.latitude, e.longitude], this.markerPlaceToGo.getLatLng()));
-        // Colocamos la distancia dentro de un Popup 
-        this.position.bindPopup("Estás a " + this.distanceMap + " metros del objetivo.").openPopup(); 
-      } else { 
-        this.position = L.circle([e.latitude, e.longitude], {radius: 5}).addTo(this.map); 
-        this.map.setView([e.latitude, e.longitude], 30);  
-      } 
-    });
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(
+      this.map
+    );
+
+    this.markerPlaceToGo = L.marker([28.130006, -15.448792], {
+      draggable: false
+    }).addTo(this.map);
+
+    this.map
+      .locate({ setView: true, watch: true })
+      .on('locationfound', (e: any) => {
+        // Consultamos si existe y si ya existe le cambiamos la posición
+        if (this.position != undefined) {
+          this.position.setLatLng([e.latitude, e.longitude]);
+          this.map.setView([e.latitude, e.longitude], 30); // Calculamos la distancia entre la posición actual y el marcador
+          this.distanceMap = Math.round(
+            this.map.distance(
+              [e.latitude, e.longitude],
+              this.markerPlaceToGo.getLatLng()
+            )
+          );
+          // Colocamos la distancia dentro de un Popup
+          this.position
+            .bindPopup('Estás a ' + this.distanceMap + ' metros del objetivo.')
+            .openPopup();
+        } else {
+          this.position = L.circle([e.latitude, e.longitude], {
+            radius: 5
+          }).addTo(this.map);
+          this.map.setView([e.latitude, e.longitude], 30);
+        }
+      });
 
     //setInterval(() =>{ this.prueba(); }, 3000);
 
@@ -80,7 +122,7 @@ export class HomePage {
     this.layers = document.querySelectorAll('.layer');
     this.imgContainer = document.querySelector('.image-container');
 
-    // this.distance = this.distanceMap; 
+    // this.distance = this.distanceMap;
 
     // To show the first part of the image
     // this.checkDisplayLayer('range1');
@@ -92,7 +134,10 @@ export class HomePage {
         clearInterval(this.keepUpdated);
       }
 
-      if (!this.firtDistance['distance'].isDistance && this.distanceMap != undefined) {
+      if (
+        !this.firtDistance['distance'].isDistance &&
+        this.distanceMap != undefined
+      ) {
         this.distance = this.distanceMap;
         this.distance1 = this.distance / 4;
         this.distance2 = this.distance1 * 2;
@@ -108,7 +153,7 @@ export class HomePage {
     //..................................................................................
   }
 
-  prueba () {
+  prueba() {
     console.log('distancia: ', this.distanceMap);
   }
 
@@ -151,11 +196,8 @@ export class HomePage {
 
   removeImage() {
     // if (this.randomNumberList.length === this.layers.length) {
-      setTimeout(
-        () => this.imgContainer.classList.add('animation-layer'),
-        1500
-      );
-      setTimeout(() => this.imgContainer.remove(), 2500);
+    setTimeout(() => this.imgContainer.classList.add('animation-layer'), 1500);
+    setTimeout(() => this.imgContainer.remove(), 2500);
     // }
   }
 
@@ -168,7 +210,10 @@ export class HomePage {
     if (!this.distanceRanges[range].isInTheRange) {
       switch (range) {
         case 'range1':
-          console.log('this.currentDistance >= this.distance3', this.currentDistance >= this.distance3);
+          console.log(
+            'this.currentDistance >= this.distance3',
+            this.currentDistance >= this.distance3
+          );
           if (this.currentDistance >= this.distance3) {
             console.log('1');
             this.displayRandomLayer();
@@ -212,7 +257,7 @@ export class HomePage {
     this.checkDisplayLayer('range2');
     this.checkDisplayLayer('range3');
     this.checkDisplayLayer('range4');
-  }  
+  }
 
   //.............................................................................
 
@@ -228,7 +273,7 @@ export class HomePage {
         data: {
           answer1: 'answer1',
           answer2: 'answer2',
-          answer3: 'answer3',
+          answer3: 'answer3'
         },
         answer: {
           rightAnswer: 'answer3'

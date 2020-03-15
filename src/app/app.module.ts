@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ModalQuestionPageModule } from './pages/modal-question/modal-question.module';
 // import { AlertRightAnswerComponent } from '../app/components/alert-right-answer/alert-right-answer.component';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,6 +18,7 @@ import { ModalQuestionPageModule } from './pages/modal-question/modal-question.m
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
+    IonicStorageModule.forRoot(),
     AppRoutingModule,
     ModalQuestionPageModule
   ],

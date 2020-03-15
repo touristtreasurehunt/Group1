@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController, ModalController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'alert-right-answer',
@@ -10,7 +11,8 @@ export class AlertRightAnswerComponent implements OnInit {
   constructor(
     public alertController: AlertController,
     private navCtrl: NavController,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private storage: Storage
   ) {}
 
   ngOnInit() {}
@@ -25,6 +27,10 @@ export class AlertRightAnswerComponent implements OnInit {
           text: 'OK',
           handler: () => {
             console.log('go to photo collection page');
+            this.storage.set('img', [
+              '../../../assets/img/laspalmasGC.jpg',
+              // '../../../assets/img/catedral-santa-ana.jpg'
+            ]);
             this.modalCtrl.dismiss();
             this.navCtrl.navigateForward('/photo-collection');
           }
