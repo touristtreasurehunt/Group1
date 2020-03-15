@@ -8,13 +8,19 @@ import { ModalQuestionPageRoutingModule } from './modal-question-routing.module'
 
 import { ModalQuestionPage } from './modal-question.page';
 
+// import { AlertRightAnswerComponent } from '../../components/alert-right-answer/alert-right-answer.component';
+import { ComponentsModule } from '../../components/components.module';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ComponentsModule,
     ModalQuestionPageRoutingModule
   ],
-  declarations: [ModalQuestionPage]
+  entryComponents: [],
+  declarations: [ModalQuestionPage],
+  providers: [ComponentsModule]
 })
 export class ModalQuestionPageModule {}

@@ -2,10 +2,13 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import { ModalController } from '@ionic/angular';
 
+import { AlertRightAnswerComponent } from '../../components/alert-right-answer/alert-right-answer.component';
+
+
 @Component({
   selector: 'app-modal-question',
   templateUrl: './modal-question.page.html',
-  styleUrls: ['./modal-question.page.scss'],
+  styleUrls: ['./modal-question.page.scss']
 })
 export class ModalQuestionPage implements OnInit {
   @Input() data: any;
@@ -13,7 +16,10 @@ export class ModalQuestionPage implements OnInit {
 
   rightColor = 'primary';
 
-  constructor(private modalCtrl: ModalController) { }
+  constructor(
+    private modalCtrl: ModalController,
+    private prueba: AlertRightAnswerComponent
+  ) {}
 
   ngOnInit() {
     // this.checkRightAnswer();
@@ -39,14 +45,12 @@ export class ModalQuestionPage implements OnInit {
     // }
 
     console.log(answerValue);
-    console.log('hola :)');
 
     if (answerValue === this.answer.rightAnswer) {
       this.rightColor = 'success';
-      // alert('Win');
+      this.prueba.presentAlert();
     } else {
       this.rightColor = 'danger';
     }
   }
-
 }

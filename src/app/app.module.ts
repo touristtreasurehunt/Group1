@@ -9,11 +9,17 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ModalQuestionPageModule } from './pages/modal-question/modal-question.module';
+// import { AlertRightAnswerComponent } from '../app/components/alert-right-answer/alert-right-answer.component';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ModalQuestionPageModule],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    ModalQuestionPageModule
+  ],
   providers: [
     StatusBar,
     SplashScreen,
