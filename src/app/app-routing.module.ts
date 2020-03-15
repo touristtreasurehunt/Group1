@@ -8,6 +8,10 @@ const routes: Routes = [
     path: 'modal-question',
     loadChildren: () => import('./pages/modal-question/modal-question.module').then( m => m.ModalQuestionPageModule)
   },
+  {
+    path: 'photo-collection',
+    loadChildren: () => import('./pages/photo-collection/photo-collection.module').then( m => m.PhotoCollectionPageModule)
+  },
 ];
 
 @NgModule({

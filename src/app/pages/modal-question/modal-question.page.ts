@@ -18,7 +18,7 @@ export class ModalQuestionPage implements OnInit {
 
   constructor(
     private modalCtrl: ModalController,
-    private prueba: AlertRightAnswerComponent
+    private rightAnswer: AlertRightAnswerComponent
   ) {}
 
   ngOnInit() {
@@ -48,7 +48,7 @@ export class ModalQuestionPage implements OnInit {
 
     if (answerValue === this.answer.rightAnswer) {
       this.rightColor = 'success';
-      this.prueba.presentAlert();
+      this.rightAnswer.presentAlert();
     } else {
       this.rightColor = 'danger';
     }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'alert-right-answer',
@@ -7,7 +7,11 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./alert-right-answer.component.scss']
 })
 export class AlertRightAnswerComponent implements OnInit {
-  constructor(public alertController: AlertController) {}
+  constructor(
+    public alertController: AlertController,
+    private navCtrl: NavController,
+    private modalCtrl: ModalController
+  ) {}
 
   ngOnInit() {}
 
@@ -21,6 +25,8 @@ export class AlertRightAnswerComponent implements OnInit {
           text: 'OK',
           handler: () => {
             console.log('go to photo collection page');
+            this.modalCtrl.dismiss();
+            this.navCtrl.navigateForward('/photo-collection');
           }
         }
       ]
