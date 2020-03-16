@@ -20,7 +20,7 @@ export class HomePage {
   markerPlaceToGo: any;
 
   imgLink: any;
-  markerId = "1";
+  markerId = "2";
   markerName: string;
 
   //Img variables.............................................................
@@ -286,6 +286,9 @@ export class HomePage {
         },
         answer: {
           rightAnswer: this.data.getPlace(this.markerId).options.correct
+        },
+        img: {
+          url: this.data.getPlace(this.markerId).img.url
         }
       }
     });
