@@ -6,6 +6,8 @@ import * as dataMarkers from './markers-data.json';
   providedIn: 'root'
 })
 export class DataService {
+  placesList: any;
+
   constructor(private storage: Storage) {}
 
   getAllData() {
@@ -13,6 +15,16 @@ export class DataService {
   }
 
   getPlace(id: string) {
-    return dataMarkers.markers.find(item => id === item.id);
+    return dataMarkers.markers.find(marker => id === marker.id);
+  }
+
+  getPlacesWithId(ids: any) {
+    console.log('IDS --service', ids);
+    this.placesList = [];
+    ids.forEach((id: string) => {
+      this.placesList.push(this.getPlace(id));
+    });
+    console.log(this.placesList);
+    return this.placesList;
   }
 }

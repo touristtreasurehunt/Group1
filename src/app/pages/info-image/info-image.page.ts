@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { ModalController } from '@ionic/angular';
-import { Storage } from '@ionic/storage';
-import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-info-image',
@@ -11,31 +9,14 @@ import { ActivatedRoute, Params } from '@angular/router';
 })
 export class InfoImagePage implements OnInit {
   imgLink: any;
+  imgPartialUrl = '../../../assets/img/';
+  @Input() place: any;
 
-  constructor(
-    private modalCtrl: ModalController,
-    private storage: Storage,
-    private route: ActivatedRoute
-  ) {
+  constructor(private modalCtrl: ModalController) {}
 
-  }
-
-  ngOnInit() {
-    // this.getDataFromStorage();
-    this.route.params.subscribe((params: Params) => {
-      console.log(params);
-    });
-  }
+  ngOnInit() {}
 
   async close() {
     await this.modalCtrl.dismiss();
-  }
-
-  getDataFromStorage() {
-    this.storage.get('img').then(imgList => {
-      console.log('imgList', imgList);
-      // this.imgLink = imgList;
-      this.imgLink = imgList[0];
-    });
   }
 }

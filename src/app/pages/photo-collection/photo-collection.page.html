@@ -10,23 +10,13 @@
 </ion-header>
 
 <ion-content>
-
   <ion-grid>
     <ion-row>
-      <!-- <ion-col size="6" *ngFor="let photo of photoService.photos">
-        <img [src]="photo.data" />
-      </ion-col> -->
-      <!-- <ion-col size="6">
-        <img [src]="imgLink" alt="">
-        <!-- <img src="../../../assets/img/laspalmasGC.jpg" alt="">
-      </ion-col> -->
       <ion-col size="6" *ngFor="let place of placeInfo">
-        <img [src]="place" (click)="showModal()" class="img" (click)="showInfo(place)"/>
+        <div class="img-container">
+          <img [src]="imgPartialUrl + place.img.url" (click)="showModal(place.id)" class="img prueba" />
+        </div>
       </ion-col>
-      <!-- <ion-col size="6" *ngFor="let photo of imgLink">
-        <img [src]="photo" (click)="showModal()" class="img"/>
-      </ion-col> -->
     </ion-row>
   </ion-grid>
-
 </ion-content>

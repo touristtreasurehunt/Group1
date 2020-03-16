@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { ModalController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 
 import { AlertRightAnswerComponent } from '../../components/alert-right-answer/alert-right-answer.component';
 
@@ -15,13 +16,16 @@ export class ModalQuestionPage implements OnInit {
   @Input() answers: any;
   @Input() answer: any;
   @Input() img: any;
+  @Input() id: any;
 
   imgUrl: string;
   rightColor = 'primary';
+  idList: any = [];
 
   constructor(
     private modalCtrl: ModalController,
-    private rightAnswer: AlertRightAnswerComponent
+    private rightAnswer: AlertRightAnswerComponent,
+    private storage: Storage
   ) {}
 
   ngOnInit() {
@@ -32,11 +36,14 @@ export class ModalQuestionPage implements OnInit {
     await this.modalCtrl.dismiss();
   }
 
-  checkRightAnswer(answerValue: string) {
-    console.log(answerValue);
-
+  async checkRightAnswer(answerValue: string) {
     if (answerValue === this.answer.rightAnswer) {
       this.rightColor = 'success';
+      this.idList = await this.storage.get('ids') || [];
+      if (!this.idList.includes(this.id)) {
+        this.idList.push(this.id);
+        this.storage.set('ids', this.idList);
+      }
       setTimeout(() => {
         this.rightAnswer.presentAlert();
       }, 800);

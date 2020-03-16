@@ -1,61 +1,50 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, ModalController } from '@ionic/angular';
-import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import { InfoImagePage } from '../info-image/info-image.page';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-photo-collection',
   templateUrl: './photo-collection.page.html',
   styleUrls: ['./photo-collection.page.scss']
 })
-export class PhotoCollectionPage implements OnInit {
-  // imgLink: any;
+export class PhotoCollectionPage {
   placeInfo: any;
+  ids: any;
+  imgPartialUrl = '../../../assets/img/';
 
   constructor(
     private navCtrl: NavController,
-    private router: Router,
     private storage: Storage,
-    public modalController: ModalController
+    public modalController: ModalController,
+    private data: DataService
   ) {}
 
-  ngOnInit() {
+  ionViewDidEnter() {
     this.getDataFromStorage();
   }
 
   goToHome() {
     this.navCtrl.navigateBack('/home');
-    // this.router.navigateByUrl('/home');
   }
 
-  getDataFromStorage() {
-    this.storage.get('img').then(data => {
-      console.log('data', data);
-      this.placeInfo = data;
-      // this.imgLink = imgList;
-      // this.imgLink = `../../../assets/img/${imgList[0]}`;
-    });
+  async getDataFromStorage() {
+    this.ids = await this.storage.get('ids');
+    this.placeInfo = this.data.getPlacesWithId(this.ids);
   }
 
-  async showModal() {
+  async showModal(id) {
     const modal = await this.modalController.create({
       component: InfoImagePage,
-      // componentProps: {
-      //   data: {
-      //     answer1: "answer1",
-      //     answer2: "answer2",
-      //     answer3: "answer3"
-      //   },
-      //   answer: {
-      //     rightAnswer: "answer3"
-      //   }
-      // }
+      componentProps: {
+        place: {
+          name: this.data.getPlace(id).name,
+          img: this.data.getPlace(id).img.url,
+          info: this.data.getPlace(id).information
+        },
+      }
     });
     return await modal.present();
-  }
-
-  showInfo(id) {
-
   }
 }
