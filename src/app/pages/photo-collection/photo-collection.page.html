@@ -21,7 +21,7 @@
         <!-- <img src="../../../assets/img/laspalmasGC.jpg" alt="">
       </ion-col> -->
       <ion-col size="6" *ngFor="let photo of imgLink">
-        <img [src]="photo" (click)="showModal()"/>
+        <img [src]="photo" (click)="showModal()" class="img"/>
       </ion-col>
     </ion-row>
   </ion-grid>
