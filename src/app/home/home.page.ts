@@ -9,9 +9,9 @@ import { Storage } from '@ionic/storage';
 
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss']
+  selector: "app-home",
+  templateUrl: "home.page.html",
+  styleUrls: ["home.page.scss"]
 })
 export class HomePage {
   map: any;
@@ -20,7 +20,8 @@ export class HomePage {
   markerPlaceToGo: any;
 
   imgLink: any;
-  markerId = 0;
+  markerId = "1";
+  markerName: string;
 
   //Img variables.............................................................
 
@@ -62,27 +63,32 @@ export class HomePage {
     private storage: Storage
   ) {
     this.imgLink = `../../../assets/img/${
-      this.data.getAllData()[this.markerId].img
+      this.data.getPlace(this.markerId).img.url
+      // this.data.getAllData()[this.markerId].img.url
     }`;
   }
 
   ionViewDidEnter() {
+    console.log("dataService getPlace", this.data.getPlace(this.markerId));
+    this.markerName = this.data.getPlace(this.markerId).name;
+    // console.log('dataService', this.data.getAllData()[this.markerId]);
+
     // this.imgLink = `../../../assets/img/${this.data.getAllData()[0].img}`;
-    console.log('id', this.data.getAllData()[this.markerId].id);
-    this.storage.set('info', [
-      { id: this.data.getAllData()[this.markerId].id }
-    ]);
-    this.storage.set('currentMarkerID', this.markerId);
-    console.log(this.imgLink);
+    // console.log('id', this.data.getAllData()[this.markerId].id);
+    // this.storage.set('info', [
+    //   { id: this.data.getAllData()[this.markerId].id }
+    // ]);
+    // this.storage.set('currentMarkerID', this.markerId);
+    // console.log(this.imgLink);
 
-    if (this.map) {
-      console.log('borrar mapa');
-      this.map.remove();
-    }
+    // if (this.map) {
+    //   console.log("borrar mapa");
+    //   this.map.remove();
+    // }
 
-    this.map = L.map('map').setView([43.2603479, -2.933411], 16);
+    this.map = L.map("map").setView([43.2603479, -2.933411], 16);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(
       this.map
     );
 
@@ -92,7 +98,7 @@ export class HomePage {
 
     this.map
       .locate({ setView: true, watch: true })
-      .on('locationfound', (e: any) => {
+      .on("locationfound", (e: any) => {
         // Consultamos si existe y si ya existe le cambiamos la posición
         if (this.position != undefined) {
           this.position.setLatLng([e.latitude, e.longitude]);
@@ -105,7 +111,7 @@ export class HomePage {
           );
           // Colocamos la distancia dentro de un Popup
           this.position
-            .bindPopup('Estás a ' + this.distanceMap + ' metros del objetivo.')
+            .bindPopup("Estás a " + this.distanceMap + " metros del objetivo.")
             .openPopup();
         } else {
           this.position = L.circle([e.latitude, e.longitude], {
@@ -119,8 +125,8 @@ export class HomePage {
 
     //setInterval Img.............................................................
 
-    this.layers = document.querySelectorAll('.layer');
-    this.imgContainer = document.querySelector('.image-container');
+    this.layers = document.querySelectorAll(".layer");
+    this.imgContainer = document.querySelector(".image-container");
 
     // this.distance = this.distanceMap;
 
@@ -135,7 +141,7 @@ export class HomePage {
       }
 
       if (
-        !this.firtDistance['distance'].isDistance &&
+        !this.firtDistance["distance"].isDistance &&
         this.distanceMap != undefined
       ) {
         this.distance = this.distanceMap;
@@ -143,7 +149,7 @@ export class HomePage {
         this.distance2 = this.distance1 * 2;
         this.distance3 = this.distance1 * 3;
         this.distance4 = this.distance;
-        this.firtDistance['distance'].isDistance = true;
+        this.firtDistance["distance"].isDistance = true;
         // To show the first part of the image
         // this.checkDisplayLayer('range1');
       }
@@ -154,14 +160,14 @@ export class HomePage {
   }
 
   prueba() {
-    console.log('distancia: ', this.distanceMap);
+    console.log("distancia: ", this.distanceMap);
   }
 
   //Function img.............................................................
 
   // Add an animation to a layer and remove that layer
   removeLayer(indexLayer: number) {
-    this.layers[indexLayer].classList.add('animation-layer');
+    this.layers[indexLayer].classList.add("animation-layer");
     setTimeout(() => this.layers[indexLayer].remove(), 1000);
   }
 
@@ -181,7 +187,7 @@ export class HomePage {
         this.removeLayer(3);
         break;
       default:
-        console.log('Error layers');
+        console.log("Error layers");
     }
   }
 
@@ -196,7 +202,7 @@ export class HomePage {
 
   removeImage() {
     // if (this.randomNumberList.length === this.layers.length) {
-    setTimeout(() => this.imgContainer.classList.add('animation-layer'), 1500);
+    setTimeout(() => this.imgContainer.classList.add("animation-layer"), 1500);
     setTimeout(() => this.imgContainer.remove(), 2500);
     // }
   }
@@ -209,40 +215,40 @@ export class HomePage {
 
     if (!this.distanceRanges[range].isInTheRange) {
       switch (range) {
-        case 'range1':
+        case "range1":
           console.log(
-            'this.currentDistance >= this.distance3',
+            "this.currentDistance >= this.distance3",
             this.currentDistance >= this.distance3
           );
           if (this.currentDistance >= this.distance3) {
-            console.log('1');
+            console.log("1");
             this.displayRandomLayer();
             this.distanceRanges[range].isInTheRange = true;
           }
           break;
-        case 'range2':
+        case "range2":
           if (
             this.currentDistance < this.distance3 &&
             this.currentDistance >= this.distance2
           ) {
-            console.log('2');
+            console.log("2");
             this.displayRandomLayer();
             this.distanceRanges[range].isInTheRange = true;
           }
           break;
-        case 'range3':
+        case "range3":
           if (
             this.currentDistance < this.distance2 &&
             this.currentDistance >= this.distance1
           ) {
-            console.log('3');
+            console.log("3");
             this.displayRandomLayer();
             this.distanceRanges[range].isInTheRange = true;
           }
           break;
-        case 'range4':
+        case "range4":
           if (this.currentDistance < this.distance1) {
-            console.log('4');
+            console.log("4");
             this.displayRandomLayer();
             this.distanceRanges[range].isInTheRange = true;
           }
@@ -252,11 +258,11 @@ export class HomePage {
 
   allChecks() {
     this.currentDistance = this.distanceMap;
-    console.log('this.currentDistance', this.currentDistance);
-    this.checkDisplayLayer('range1');
-    this.checkDisplayLayer('range2');
-    this.checkDisplayLayer('range3');
-    this.checkDisplayLayer('range4');
+    console.log("this.currentDistance", this.currentDistance);
+    this.checkDisplayLayer("range1");
+    this.checkDisplayLayer("range2");
+    this.checkDisplayLayer("range3");
+    this.checkDisplayLayer("range4");
   }
 
   //.............................................................................
@@ -270,13 +276,16 @@ export class HomePage {
     const modal = await this.modalController.create({
       component: ModalQuestionPage,
       componentProps: {
-        data: {
-          answer1: 'answer1',
-          answer2: 'answer2',
-          answer3: 'answer3'
+        question: {
+          q: this.data.getPlace(this.markerId).question
+        },
+        answers: {
+          answer1: this.data.getPlace(this.markerId).options.anotherBadOption,
+          answer2: this.data.getPlace(this.markerId).options.badOption,
+          answer3: this.data.getPlace(this.markerId).options.correct
         },
         answer: {
-          rightAnswer: 'answer3'
+          rightAnswer: this.data.getPlace(this.markerId).options.correct
         }
       }
     });

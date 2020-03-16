@@ -1,0 +1,80 @@
+{
+  "markers": [
+    {
+      "id": "1",
+      "name": "Alfredo Kraus Auditorium",
+      "geolocation": {
+        "lat": 28.130006,
+        "lng": -15.448792
+      },
+      "img": {
+        "url": "alfredo_kraus_auditory.png",
+        "alt": "Alfredo Kraus Auditory"
+      },
+      "question": "What's the name of the gorgon who is behind the auditory?",
+      "options": {
+        "correct": "Medusa",
+        "badOption": "Stheno",
+        "anotherBadOption": "Euryale"
+      },
+      "information": "The Alfredo Kraus Auditorium first opened its doors to the public on December 5, 1997. Since then, this space, which is named after the most international Canarian tenor and most loved by the general public, has become a benchmark for the culture in the capital of Gran Canaria, essential for holding congresses and all kinds of events, and an emblem of Las Palmas de Gran Canaria around the world. The building that houses the Alfredo Kraus Auditorium, the work of the architect Óscar Tusquetsy with the sculptural intervention of Juan Bordes, is one of the most unique and representative buildings in Las Palmas de Gran Canaria. Located at the end of Las Canteras beach, this isolated and autonomous fortress was devised as a lighthouse to mark and protect the city. In the Symphony Hall, in addition to the huge window that opens between the armchair patio and the sea, there is a spectacular organ that, with its 2,750 tubes, is one of the largest in the Canary Islands and the only layman on the island of Gran Canaria ."
+    },
+    {
+      "id": "2",
+      "name": "Pérez Galdós Theatre",
+      "geolocation": {
+        "lat": 28.103379,
+        "lng": -15.413827
+      },
+      "img": {
+        "url": "perez_galdos_theatre.png",
+        "alt": "Pérez Galdós Theatre"
+      },
+      "question": "What name was previously known to the Pérez Galdós Theater?",
+      "options": {
+        "correct": "Tirso de Molina",
+        "badOption": "Federico García Lorca",
+        "anotherBadOption": "Luis de Góngora"
+      },
+      "information": "Pérez Galdós Theatre has been one of the most remarkable landmarks of our city and still is a meaningfull reference of the cultural life. In 1888 it was inaugurated with the name of “New Theatre” , later the 6th of December of 1890 it opened its doors with a new name, Tirso de Molina Theatre.  In 1918 the theatre suffered a fire and then it was rebuilt by two famous Canary artists, the brothers: the architect Miguel Martín Fernández de la Torre and Nestor, who decorated the interior of the building. Its facade has a neoclassical style. In the past, the Theatre smelt like fish because it was closed to a factory to dry fish. Furthermore,  the most important international and national artists have performanced and played in it. Recently, we know it as Pérez Galdós Theatre, this name belongs to the most important writer in the Canary Islands and around the world. Currently the opera festival takes place in this theatre. "
+    },
+    {
+      "id": "3",
+      "name": "Mata Castle",
+      "geolocation": {
+        "lat": 28.107435,
+        "lng": -15.421746
+      },
+      "img": {
+        "url": "mata_castle.png",
+        "alt": "Mata Castle"
+      },
+      "question": "What was the name of the captain of the pirates who attacked Mata Castle?",
+      "options": {
+        "correct": "Pieter Van Der Does",
+        "badOption": "Sir Fancis Drake",
+        "anotherBadOption": "William Kidd"
+      },
+      "information": "The original Mata Castle defense that was built in the last third of the 16th century. Its construction culminated in 1577, being reconstructed in 1599 after the first attack suffered by Van der Does. In 1949 was declared Historic Artistic Monument and currently it houses the Museum of the City and the Sea. "
+    },
+    {
+      "id": "4",
+      "name": "Santa Ana's Cathedral",
+      "geolocation": {
+        "lat": 28.100766,
+        "lng": -15.415063
+      },
+      "img": {
+        "url": "santa_ana_cathedral.png",
+        "alt": "Santa Ana's Cathedral"
+      },
+      "question": "In front of the Cathedral of Santa Ana is the Plaza de Santa Ana where we can see the statues of some animals. What animals are they?",
+      "options": {
+        "correct": "Dogs",
+        "badOption": "Cats",
+        "anotherBadOption": "Lizards"
+      },
+      "information": "This cathedral chorus was built by Mr. José Luján Pérez, an excellent sculptor and engineer. Firstly it was inside of the Cathedral, and now, it is outside the Cathedral because it was necessary to make more room for people who go to the Cathedral for praying. This relocatíon of the chorus  was a desicion that didn´t  share Mr. José Luján Pérez. The cathedral was built with blue stone from  the San Lorenzo quarry. The Bishop of Las Palmas Cathedral thought about placing a lamp in order to illuminate it, that travelled from Genoa (Italy) to Cádiz.  It was installed on Saint Bartolomé’s day.  In those moments, the statue of La Señora del Pino was in the Cathedral due to an epidemic plague spread out throughout the nation. Once the lamp was installed, it was sent back to San Mateo in order to avoid a possible attack by pirates. The lamp weight 20 silver arrobas and it cost 51.090 silver 'reales'. Diego Nicolás Eduardo decided to build the dome and he left instructions on how to do it. However and, to his surprise, when he returned, barely half of the dome was raised. The builder claimed that the arch was not going to support the weight and changed the plans. The builders didn’t trust the dome to stand  firm, so Diego Nicolás Eduardo  had to sit under the dome meanwhile they worked,  in order to prove the cupola was well designed to not fall down. An afternoon of 1599, Pieter Van der Does attacked the city of Las Palmas igniting fire to many noble buildings. He even destroyed the Cathedral’s bells. In a hole we can find a bell given by the Dutch colony in 1999. This bell has not been used only as decoration. "
+    }
+  ]
+}

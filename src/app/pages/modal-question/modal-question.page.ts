@@ -6,15 +6,16 @@ import { AlertRightAnswerComponent } from '../../components/alert-right-answer/a
 
 
 @Component({
-  selector: 'app-modal-question',
-  templateUrl: './modal-question.page.html',
-  styleUrls: ['./modal-question.page.scss']
+  selector: "app-modal-question",
+  templateUrl: "./modal-question.page.html",
+  styleUrls: ["./modal-question.page.scss"]
 })
 export class ModalQuestionPage implements OnInit {
-  @Input() data: any;
+  @Input() question: any;
+  @Input() answers: any;
   @Input() answer: any;
 
-  rightColor = 'primary';
+  rightColor = "primary";
 
   constructor(
     private modalCtrl: ModalController,
@@ -47,12 +48,12 @@ export class ModalQuestionPage implements OnInit {
     console.log(answerValue);
 
     if (answerValue === this.answer.rightAnswer) {
-      this.rightColor = 'success';
+      this.rightColor = "success";
       setTimeout(() => {
         this.rightAnswer.presentAlert();
       }, 800);
     } else {
-      this.rightColor = 'danger';
+      this.rightColor = "danger";
     }
   }
 }

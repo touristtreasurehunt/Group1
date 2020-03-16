@@ -16,20 +16,20 @@
       <ion-list>
         <ion-radio-group>
           <ion-list-header>
-            <p>Question?</p>
+            <p>{{ question.q }}</p>
           </ion-list-header>
-          <ion-item (click)="checkRightAnswer(data.answer1)">
-            <ion-label>{{data.answer1}}</ion-label>
+          <ion-item (click)="checkRightAnswer(answers.answer1)">
+            <ion-label>{{answers.answer1}}</ion-label>
             <ion-radio class="answer1" slot="start" [color]="rightColor" value="answer1"></ion-radio>
           </ion-item>
 
-          <ion-item (click)="checkRightAnswer(data.answer2)">
-            <ion-label>{{data.answer2}}</ion-label>
+          <ion-item (click)="checkRightAnswer(answers.answer2)">
+            <ion-label>{{answers.answer2}}</ion-label>
             <ion-radio class="answer2" slot="start" [color]="rightColor" value="answer2"></ion-radio>
           </ion-item>
       
-          <ion-item (click)="checkRightAnswer(data.answer3)">
-            <ion-label>{{data.answer3}}</ion-label>
+          <ion-item (click)="checkRightAnswer(answers.answer3)">
+            <ion-label>{{answers.answer3}}</ion-label>
             <ion-radio class="answer3" slot="start" [color]="rightColor" value="answer3"></ion-radio>
           </ion-item>
         </ion-radio-group>

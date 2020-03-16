@@ -10,7 +10,8 @@ import { InfoImagePage } from '../info-image/info-image.page';
   styleUrls: ['./photo-collection.page.scss']
 })
 export class PhotoCollectionPage implements OnInit {
-  imgLink: any;
+  // imgLink: any;
+  placeInfo: any;
 
   constructor(
     private navCtrl: NavController,
@@ -29,9 +30,10 @@ export class PhotoCollectionPage implements OnInit {
   }
 
   getDataFromStorage() {
-    this.storage.get('img').then(imgList => {
-      console.log('imgList', imgList);
-      this.imgLink = imgList;
+    this.storage.get('img').then(data => {
+      console.log('data', data);
+      this.placeInfo = data;
+      // this.imgLink = imgList;
       // this.imgLink = `../../../assets/img/${imgList[0]}`;
     });
   }
@@ -51,5 +53,9 @@ export class PhotoCollectionPage implements OnInit {
       // }
     });
     return await modal.present();
+  }
+
+  showInfo(id) {
+
   }
 }

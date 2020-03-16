@@ -20,6 +20,10 @@ const routes: Routes = [
     path: 'intro',
     loadChildren: () => import('./pages/intro/intro.module').then( m => m.IntroPageModule)
   },
+  {
+    path: 'info-place',
+    loadChildren: () => import('./pages/info-place/info-place.module').then( m => m.InfoPlacePageModule)
+  },
 ];
 
 @NgModule({
