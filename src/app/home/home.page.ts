@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import * as L from 'leaflet';
 
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { ModalQuestionPage } from '../pages/modal-question/modal-question.page';
 import { DataService } from '../services/data.service';
-import { Storage } from '@ionic/storage';
 
 
 import * as markers from '../../../markers-data.json';
@@ -64,7 +63,7 @@ export class HomePage {
   constructor(
     public modalController: ModalController,
     private data: DataService,
-    private storage: Storage
+    private navCtrl: NavController,
   ) {
     this.imgLink = `../../../assets/img/${
       this.data.getPlace(this.markerId).img.url
@@ -301,5 +300,9 @@ export class HomePage {
     });
     clearInterval(this.keepUpdated);
     return await modal.present();
+  }
+
+  goToPhotoCollection() {
+    this.navCtrl.navigateBack('/photo-collection');
   }
 }
