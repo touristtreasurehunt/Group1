@@ -7,7 +7,7 @@ import { DataService } from '../services/data.service';
 import { Storage } from '@ionic/storage';
 
 
-import * as markers from "../../../markers-data.json";
+import * as markers from '../../../markers-data.json';
 
 @Component({
   selector: 'app-home',
@@ -24,6 +24,8 @@ export class HomePage {
   markerId = '1';
   markerName: string;
 
+  position: any;
+
   //Img variables.............................................................
 
   layers: any;
@@ -37,7 +39,10 @@ export class HomePage {
   distance3: number;
   distance4: number;
 
-  currentDistance: any; // getRouteDistance() ?
+  // currentDistance: any; // getRouteDistance() ?
+
+  // currentDistance set to 0 to make the SIMULATION
+  currentDistance = 0;
 
   distanceRanges: object = {
     range1: { isInTheRange: false },
@@ -51,6 +56,8 @@ export class HomePage {
   };
 
   keepUpdated: any;
+
+  showBtn = false;
 
   //..............................................................................
 
@@ -84,9 +91,9 @@ export class HomePage {
     }).addTo(this.map);
 
     //Another markers
-    L.marker([markers[1]["geolocation"]["lat"],markers[1]["geolocation"]["lng"]], {draggable: false}).bindPopup(markers[1]["name"]).addTo(this.map);
-    L.marker([markers[2]["geolocation"]["lat"],markers[2]["geolocation"]["lng"]], {draggable: false}).bindPopup(markers[2]["name"]).addTo(this.map);
-    L.marker([markers[3]["geolocation"]["lat"],markers[3]["geolocation"]["lng"]], {draggable: false}).bindPopup(markers[3]["name"]).addTo(this.map);
+    L.marker([markers[1]['geolocation']['lat'],markers[1]['geolocation']['lng']], {draggable: false}).bindPopup(markers[1]['name']).addTo(this.map);
+    L.marker([markers[2]['geolocation']['lat'],markers[2]['geolocation']['lng']], {draggable: false}).bindPopup(markers[2]['name']).addTo(this.map);
+    L.marker([markers[3]['geolocation']['lat'],markers[3]['geolocation']['lng']], {draggable: false}).bindPopup(markers[3]['name']).addTo(this.map);
 
     this.map
       .locate({ setView: true, watch: true })
@@ -124,6 +131,7 @@ export class HomePage {
     // Add a setInterval to update and check the distances ranges
     this.keepUpdated = setInterval(() => {
       if (this.randomNumberList.length === this.layers.length) {
+        setTimeout(() => this.showBtn = true, 2000);
         this.removeImage();
         clearInterval(this.keepUpdated);
       }
@@ -140,7 +148,20 @@ export class HomePage {
         this.firtDistance['distance'].isDistance = true;
       }
       this.allChecks();
-    }, 5000);
+    }, 3000);
+
+    // setTimeout(() => {
+    //   console.log('dis1');
+    //   this.currentDistance = this.distance2
+    // }, 5001);
+    // setTimeout(() => {
+    //   console.log('dis2');
+    //   this.currentDistance = this.distance1;
+    // }, 5002);
+    // setTimeout(() => {
+    //   console.log('dis3');
+    //   this.currentDistance = this.distance1 - 1000;
+    // }, 5003);
 
     //..................................................................................
   }
@@ -239,12 +260,18 @@ export class HomePage {
   }
 
   allChecks() {
-    this.currentDistance = this.distanceMap;
+    // Uncomment this line to make it work
+    // this.currentDistance = this.distanceMap;
     console.log('this.currentDistance', this.currentDistance);
+
+    // SIMULATION
+    this.currentDistance = this.currentDistance + (this.distance1 - 1000);
+
     this.checkDisplayLayer('range1');
     this.checkDisplayLayer('range2');
     this.checkDisplayLayer('range3');
     this.checkDisplayLayer('range4');
+    console.log('currentDistance SIMULATION', this.currentDistance);
   }
 
   //.............................................................................

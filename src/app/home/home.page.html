@@ -23,7 +23,7 @@
     <div class="layer layer-4"></div>
   </ion-card>
 
-  <ion-button (click)="showModal()" expand="block">Question</ion-button>
+  <ion-button class="btn-question" *ngIf="showBtn" (click)="showModal()" expand="block">Question</ion-button>
 </ion-content>
 
 <ion-footer class="footer_style">
