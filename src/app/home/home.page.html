@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Blank
+    <ion-title class="ion-text-center">
+      Explocation
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -11,14 +11,19 @@
 
   </div>
 
+  <h1 class="title ion-padding">📍{{ markerName }}</h1>
+
   <ion-card class="image-container">
-    <img class="image" src="../../../assets/img/alfredo_kraus_auditory.png" alt="">
+    <img class="image" [src]="imgLink" alt="">
+
   
     <div class="layer layer-1"></div>
     <div class="layer layer-2"></div>
     <div class="layer layer-3"></div>
     <div class="layer layer-4"></div>
   </ion-card>
+
+  <ion-button (click)="showModal()" expand="block">Question</ion-button>
 </ion-content>
 
 <ion-footer class="footer_style">
