@@ -7,6 +7,7 @@ import { DataService } from '../services/data.service';
 import { Storage } from '@ionic/storage';
 
 
+import * as markers from "../../../markers-data.json";
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,7 @@ import { Storage } from '@ionic/storage';
 export class HomePage {
   map: any;
   distanceMap: any;
-  position: any;
+  userPosition: any;
   markerPlaceToGo: any;
 
   imgLink: any;
@@ -35,6 +36,7 @@ export class HomePage {
   distance2: number;
   distance3: number;
   distance4: number;
+
   currentDistance: any; // getRouteDistance() ?
 
   distanceRanges: object = {
@@ -105,6 +107,7 @@ export class HomePage {
           this.map.setView([e.latitude, e.longitude], 30);
         }
       });
+
 
     //setInterval(() =>{ this.prueba(); }, 3000);
 
@@ -185,6 +188,7 @@ export class HomePage {
 
   // Check if in every distance range the function only runs once
   checkDisplayLayer(range: string) {
+
     if (!this.distanceRanges[range].isInTheRange) {
       switch (range) {
         case 'range1':
@@ -192,6 +196,7 @@ export class HomePage {
             'this.currentDistance >= this.distance3',
             this.currentDistance >= this.distance3
           );
+
           if (this.currentDistance >= this.distance3) {
             console.log('1');
             this.displayRandomLayer();
