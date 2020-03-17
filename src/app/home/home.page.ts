@@ -57,6 +57,7 @@ export class HomePage {
   keepUpdated: any;
 
   showBtn = false;
+  showText = false;
 
   //..............................................................................
 
@@ -74,10 +75,12 @@ export class HomePage {
     console.log('dataService getPlace', this.data.getPlace(this.markerId));
     this.markerName = this.data.getPlace(this.markerId).name;
 
-    // if (this.map) {
-    //   console.log("borrar mapa");
-    //   this.map.remove();
-    // }
+    console.log('this.position', this.position);
+
+    if (this.map) {
+      console.log("borrar mapa");
+      this.map.remove();
+    }
 
     this.map = L.map('map').setView([43.2603479, -2.933411], 16);
 
@@ -127,42 +130,40 @@ export class HomePage {
     this.layers = document.querySelectorAll('.layer');
     this.imgContainer = document.querySelector('.image-container');
 
-    // Add a setInterval to update and check the distances ranges
-    this.keepUpdated = setInterval(() => {
-      if (this.randomNumberList.length === this.layers.length) {
-        setTimeout(() => this.showBtn = true, 2000);
-        this.removeImage();
-        clearInterval(this.keepUpdated);
-      }
+    // ELIMINAR ESTA CONDICIÓN CUANDO SE MUESTRE INFO DE OTROS MARCADORES!
+    if (!this.showText) {
+      // Add a setInterval to update and check the distances ranges
+      this.keepUpdated = setInterval(() => {
+        if (this.randomNumberList.length === this.layers.length) {
+          setTimeout(() => this.showBtn = true, 2000);
+          this.removeImage();
+          clearInterval(this.keepUpdated);
+        }
 
-      if (
-        !this.firtDistance['distance'].isDistance &&
-        this.distanceMap != undefined
-      ) {
-        this.distance = this.distanceMap;
-        this.distance1 = this.distance / 4;
-        this.distance2 = this.distance1 * 2;
-        this.distance3 = this.distance1 * 3;
-        this.distance4 = this.distance;
-        this.firtDistance['distance'].isDistance = true;
-      }
-      this.allChecks();
-    }, 3000);
-
-    // setTimeout(() => {
-    //   console.log('dis1');
-    //   this.currentDistance = this.distance2
-    // }, 5001);
-    // setTimeout(() => {
-    //   console.log('dis2');
-    //   this.currentDistance = this.distance1;
-    // }, 5002);
-    // setTimeout(() => {
-    //   console.log('dis3');
-    //   this.currentDistance = this.distance1 - 1000;
-    // }, 5003);
+        if (
+          !this.firtDistance['distance'].isDistance &&
+          this.distanceMap != undefined
+        ) {
+          this.distance = this.distanceMap;
+          this.distance1 = this.distance / 4;
+          this.distance2 = this.distance1 * 2;
+          this.distance3 = this.distance1 * 3;
+          this.distance4 = this.distance;
+          this.firtDistance['distance'].isDistance = true;
+        }
+        this.allChecks();
+      }, 3000);
+    }
 
     //..................................................................................
+  }
+
+  ionViewDidLeave() {
+    console.log('this.position cycle', this.position);
+    this.position = undefined;
+    console.log('this.position cycle 2', this.position);
+    this.showBtn = false;
+    this.showText = true;
   }
 
   prueba() {
