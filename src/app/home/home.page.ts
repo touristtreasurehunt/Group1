@@ -83,6 +83,11 @@ export class HomePage {
       draggable: false
     }).addTo(this.map);
 
+    //Another markers
+    L.marker([markers[1]["geolocation"]["lat"],markers[1]["geolocation"]["lng"]], {draggable: false}).bindPopup(markers[1]["name"]).addTo(this.map);
+    L.marker([markers[2]["geolocation"]["lat"],markers[2]["geolocation"]["lng"]], {draggable: false}).bindPopup(markers[2]["name"]).addTo(this.map);
+    L.marker([markers[3]["geolocation"]["lat"],markers[3]["geolocation"]["lng"]], {draggable: false}).bindPopup(markers[3]["name"]).addTo(this.map);
+
     this.map
       .locate({ setView: true, watch: true })
       .on('locationfound', (e: any) => {
