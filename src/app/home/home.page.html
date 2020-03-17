@@ -23,10 +23,12 @@
     <div class="layer layer-4"></div>
   </ion-card>
 
-  <ion-button (click)="showModal()" expand="block">Question</ion-button>
+  <ion-button class="btn-question" *ngIf="showBtn" (click)="showModal()" expand="block">Question</ion-button>
+
+  <p *ngIf="showText" class="ion-padding">You have already discovered this place! 😀</p>
 </ion-content>
 
 <ion-footer class="footer_style">
-  <ion-button color="success"><ion-icon name="images-outline"></ion-icon></ion-button>
+  <ion-button color="success" (click)="goToPhotoCollection()"><ion-icon name="images-outline"></ion-icon></ion-button>
   <ion-button class="float_right"><ion-icon name="settings"></ion-icon></ion-button>
 </ion-footer>

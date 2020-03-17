@@ -9,9 +9,9 @@
       },
       "img": {
         "url": "alfredo_kraus_auditory.png",
-        "alt": "Alfredo Kraus Auditory"
+        "alt": "Alfredo Kraus Auditorium"
       },
-      "question": "What's the name of the gorgon who is behind the auditory?",
+      "question": "What's the name of the gorgon who is behind the Auditorium?",
       "options": {
         "correct": "Medusa",
         "badOption": "Stheno",

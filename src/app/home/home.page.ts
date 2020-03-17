@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import * as L from 'leaflet';
 
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { ModalQuestionPage } from '../pages/modal-question/modal-question.page';
 import { DataService } from '../services/data.service';
-import { Storage } from '@ionic/storage';
 
 
-import * as markers from "../../../markers-data.json";
+import * as markers from '../../../markers-data.json';
 
 @Component({
   selector: 'app-home',
@@ -24,6 +23,8 @@ export class HomePage {
   markerId = '1';
   markerName: string;
 
+  position: any;
+
   //Img variables.............................................................
 
   layers: any;
@@ -37,7 +38,10 @@ export class HomePage {
   distance3: number;
   distance4: number;
 
-  currentDistance: any; // getRouteDistance() ?
+  // currentDistance: any; // getRouteDistance() ?
+
+  // currentDistance set to 0 to make the SIMULATION
+  currentDistance = 0;
 
   distanceRanges: object = {
     range1: { isInTheRange: false },
@@ -52,12 +56,15 @@ export class HomePage {
 
   keepUpdated: any;
 
+  showBtn = false;
+  showText = false;
+
   //..............................................................................
 
   constructor(
     public modalController: ModalController,
     private data: DataService,
-    private storage: Storage
+    private navCtrl: NavController,
   ) {
     this.imgLink = `../../../assets/img/${
       this.data.getPlace(this.markerId).img.url
@@ -68,10 +75,12 @@ export class HomePage {
     console.log('dataService getPlace', this.data.getPlace(this.markerId));
     this.markerName = this.data.getPlace(this.markerId).name;
 
-    // if (this.map) {
-    //   console.log("borrar mapa");
-    //   this.map.remove();
-    // }
+    console.log('this.position', this.position);
+
+    if (this.map) {
+      console.log("borrar mapa");
+      this.map.remove();
+    }
 
     this.map = L.map('map').setView([43.2603479, -2.933411], 16);
 
@@ -84,9 +93,9 @@ export class HomePage {
     }).addTo(this.map);
 
     //Another markers
-    L.marker([markers[1]["geolocation"]["lat"],markers[1]["geolocation"]["lng"]], {draggable: false}).bindPopup(markers[1]["name"]).addTo(this.map);
-    L.marker([markers[2]["geolocation"]["lat"],markers[2]["geolocation"]["lng"]], {draggable: false}).bindPopup(markers[2]["name"]).addTo(this.map);
-    L.marker([markers[3]["geolocation"]["lat"],markers[3]["geolocation"]["lng"]], {draggable: false}).bindPopup(markers[3]["name"]).addTo(this.map);
+    L.marker([markers[1]['geolocation']['lat'],markers[1]['geolocation']['lng']], {draggable: false}).bindPopup(markers[1]['name']).addTo(this.map);
+    L.marker([markers[2]['geolocation']['lat'],markers[2]['geolocation']['lng']], {draggable: false}).bindPopup(markers[2]['name']).addTo(this.map);
+    L.marker([markers[3]['geolocation']['lat'],markers[3]['geolocation']['lng']], {draggable: false}).bindPopup(markers[3]['name']).addTo(this.map);
 
     this.map
       .locate({ setView: true, watch: true })
@@ -121,28 +130,40 @@ export class HomePage {
     this.layers = document.querySelectorAll('.layer');
     this.imgContainer = document.querySelector('.image-container');
 
-    // Add a setInterval to update and check the distances ranges
-    this.keepUpdated = setInterval(() => {
-      if (this.randomNumberList.length === this.layers.length) {
-        this.removeImage();
-        clearInterval(this.keepUpdated);
-      }
+    // ELIMINAR ESTA CONDICIÓN CUANDO SE MUESTRE INFO DE OTROS MARCADORES!
+    if (!this.showText) {
+      // Add a setInterval to update and check the distances ranges
+      this.keepUpdated = setInterval(() => {
+        if (this.randomNumberList.length === this.layers.length) {
+          setTimeout(() => this.showBtn = true, 2000);
+          this.removeImage();
+          clearInterval(this.keepUpdated);
+        }
 
-      if (
-        !this.firtDistance['distance'].isDistance &&
-        this.distanceMap != undefined
-      ) {
-        this.distance = this.distanceMap;
-        this.distance1 = this.distance / 4;
-        this.distance2 = this.distance1 * 2;
-        this.distance3 = this.distance1 * 3;
-        this.distance4 = this.distance;
-        this.firtDistance['distance'].isDistance = true;
-      }
-      this.allChecks();
-    }, 5000);
+        if (
+          !this.firtDistance['distance'].isDistance &&
+          this.distanceMap != undefined
+        ) {
+          this.distance = this.distanceMap;
+          this.distance1 = this.distance / 4;
+          this.distance2 = this.distance1 * 2;
+          this.distance3 = this.distance1 * 3;
+          this.distance4 = this.distance;
+          this.firtDistance['distance'].isDistance = true;
+        }
+        this.allChecks();
+      }, 3000);
+    }
 
     //..................................................................................
+  }
+
+  ionViewDidLeave() {
+    console.log('this.position cycle', this.position);
+    this.position = undefined;
+    console.log('this.position cycle 2', this.position);
+    this.showBtn = false;
+    this.showText = true;
   }
 
   prueba() {
@@ -239,12 +260,18 @@ export class HomePage {
   }
 
   allChecks() {
-    this.currentDistance = this.distanceMap;
+    // Uncomment this line to make it work
+    // this.currentDistance = this.distanceMap;
     console.log('this.currentDistance', this.currentDistance);
+
+    // SIMULATION
+    this.currentDistance = this.currentDistance + (this.distance1 - 1000);
+
     this.checkDisplayLayer('range1');
     this.checkDisplayLayer('range2');
     this.checkDisplayLayer('range3');
     this.checkDisplayLayer('range4');
+    console.log('currentDistance SIMULATION', this.currentDistance);
   }
 
   //.............................................................................
@@ -274,5 +301,9 @@ export class HomePage {
     });
     clearInterval(this.keepUpdated);
     return await modal.present();
+  }
+
+  goToPhotoCollection() {
+    this.navCtrl.navigateForward('/photo-collection');
   }
 }
