@@ -304,6 +304,6 @@ export class HomePage {
   }
 
   goToPhotoCollection() {
-    this.navCtrl.navigateBack('/photo-collection');
+    this.navCtrl.navigateForward('/photo-collection');
   }
 }
