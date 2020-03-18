@@ -180,6 +180,7 @@ export class HomePage {
     this.layers = document.querySelectorAll('.layer');
     this.imgContainer = document.querySelector('.image-container');
 
+    // Check if the place has already visited
     this.ids = await this.storage.get('ids') || [];
     if (!this.ids.includes(this.markerId)) {
       this.createInterval();
@@ -193,13 +194,6 @@ export class HomePage {
     // To get again user position circle
     this.position = undefined;
 
-    // Check default place
-    // this.ids = await this.storage.get('ids') || [];
-    // if (this.ids.includes(this.markerId)) {
-    //   this.imgContainer.style.display = 'none';
-    //   this.showText = true;
-    //   this.showBtn = false;
-    // }
     this.checkDefaultPlace();
     clearInterval(this.keepUpdated);
   }
@@ -354,7 +348,6 @@ export class HomePage {
       this.distanceRanges[key].isInTheRange = false;
     }
 
-    this.markerName = this.data.getPlace(this.markerId).name;
     this.imgLink = `../../../assets/img/${
       this.data.getPlace(this.markerId).img.url
     }`;
@@ -371,6 +364,7 @@ export class HomePage {
 
   async checkGetInfoPlace(id: string) {
     this.ids = await this.storage.get('ids') || [];
+    this.markerName = this.data.getPlace(id).name;
 
     if (this.ids.includes(id)) {
       clearInterval(this.keepUpdated);
@@ -396,22 +390,23 @@ export class HomePage {
   //QUESTION.............................................................
 
   async showModal() {
+    let aMarker = this.data.getPlace(this.markerId);
     const modal = await this.modalController.create({
       component: ModalQuestionPage,
       componentProps: {
         question: {
-          q: this.data.getPlace(this.markerId).question
+          q: aMarker.question
         },
         answers: {
-          answer1: this.data.getPlace(this.markerId).options.anotherBadOption,
-          answer2: this.data.getPlace(this.markerId).options.badOption,
-          answer3: this.data.getPlace(this.markerId).options.correct
+          answer1: aMarker.options.anotherBadOption,
+          answer2: aMarker.options.badOption,
+          answer3: aMarker.options.correct
         },
         answer: {
-          rightAnswer: this.data.getPlace(this.markerId).options.correct
+          rightAnswer: aMarker.options.correct
         },
         img: {
-          url: this.data.getPlace(this.markerId).img.url
+          url: aMarker.img.url
         },
         id: this.markerId
       }
