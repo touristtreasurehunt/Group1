@@ -88,7 +88,7 @@ export class HomePage {
     console.log('this.position', this.position);
 
     if (this.map) {
-      console.log("borrar mapa");
+      console.log('borrar mapa');
       this.map.remove();
     }
 
@@ -215,7 +215,7 @@ export class HomePage {
   // Add an animation to a layer and remove that layer
   removeLayer(indexLayer: number) {
     this.layers[indexLayer].classList.add('animation-layer');
-    setTimeout(() => this.layers[indexLayer].remove(), 1000);
+    // setTimeout(() => this.layers[indexLayer].remove(), 1000);
   }
 
   // Show an aleatory part of the image depending on a random number
@@ -249,7 +249,8 @@ export class HomePage {
 
   removeImage() {
     setTimeout(() => this.imgContainer.classList.add('animation-layer'), 1500);
-    setTimeout(() => this.imgContainer.remove(), 2500);
+    setTimeout(() => this.imgContainer.style.display = 'none', 2500);
+    // setTimeout(() => this.imgContainer.remove(), 2500);
   }
 
   // Check if in every distance range the function only runs once
@@ -258,10 +259,10 @@ export class HomePage {
     if (!this.distanceRanges[range].isInTheRange) {
       switch (range) {
         case 'range1':
-          console.log(
-            'this.currentDistance >= this.distance3',
-            this.currentDistance >= this.distance3
-          );
+          // console.log(
+          //   'this.currentDistance >= this.distance3',
+          //   this.currentDistance >= this.distance3
+          // );
 
           if (this.currentDistance >= this.distance3) {
             console.log('1');
@@ -290,6 +291,11 @@ export class HomePage {
           }
           break;
         case 'range4':
+          console.log(
+            '********** this.currentDistance < this.distance1',
+            this.currentDistance < this.distance1
+          );
+          console.log('********** this.distance1', this.distance1);
           if (this.currentDistance < this.distance1) {
             console.log('4');
             this.displayRandomLayer();
@@ -325,7 +331,7 @@ export class HomePage {
         }
 
         if (
-          !this.firtDistance["distance"].isDistance &&
+          !this.firtDistance['distance'].isDistance &&
           this.distanceMap != undefined
         ) {
           this.distance = this.distanceMap;
@@ -333,7 +339,7 @@ export class HomePage {
           this.distance2 = this.distance1 * 2;
           this.distance3 = this.distance1 * 3;
           this.distance4 = this.distance;
-          this.firtDistance["distance"].isDistance = true;
+          this.firtDistance['distance'].isDistance = true;
         }
         this.allChecks();
       }, 3000);
@@ -341,9 +347,32 @@ export class HomePage {
   }
 
   getInfoPlace(id: string) {
+    this.markerId = id;
     clearInterval(this.keepUpdated);
-    this.markerName = this.data.getPlace(id).name;
-    this.imgLink = `../../../assets/img/${this.data.getPlace(id).img.url}`;
+    this.imgContainer.style.display = 'block';  // ???????????
+    this.setOpacityToLayers();
+    this.currentDistance = 0;
+    this.randomNumberList = [];
+
+    this.distance = this.distanceMap;
+
+    // Set distances ranges to false
+    // tslint:disable-next-line: forin
+    for (const key in this.distanceRanges) {
+      this.distanceRanges[key].isInTheRange = false;
+    }
+
+    this.markerName = this.data.getPlace(this.markerId).name;
+    this.imgLink = `../../../assets/img/${this.data.getPlace(this.markerId).img.url}`;
+
+    this.createInterval();
+  }
+
+  setOpacityToLayers() {
+    this.layers[0].classList.remove('animation-layer');
+    this.layers[1].classList.remove('animation-layer');
+    this.layers[2].classList.remove('animation-layer');
+    this.layers[3].classList.remove('animation-layer');
   }
 
   //.............................................................................
