@@ -106,19 +106,31 @@ export class HomePage {
 
     // Marker 1
     L.marker([this.marker1.geolocation.lat, this.marker1.geolocation.lng], {draggable: false})
-    .bindPopup(this.marker1.name).addTo(this.map);
+    .bindPopup(this.marker1.name).addTo(this.map)
+    .on('click', () => {
+      this.getInfoPlace('1');
+    });
 
     // Marker 2
     L.marker([this.marker2.geolocation.lat, this.marker2.geolocation.lng], {draggable: false})
-    .bindPopup(this.marker2.name).addTo(this.map);
+    .bindPopup(this.marker2.name).addTo(this.map)
+    .on('click', () => {
+      this.getInfoPlace('2');
+    });
 
     // Marker 3
     L.marker([this.marker3.geolocation.lat, this.marker3.geolocation.lng], {draggable: false})
-    .bindPopup(this.marker3.name).addTo(this.map);
+    .bindPopup(this.marker3.name).addTo(this.map)
+    .on('click', () => {
+      this.getInfoPlace('3');
+    });
 
     // Marker 4
     L.marker([this.marker4.geolocation.lat, this.marker4.geolocation.lng], {draggable: false})
-    .bindPopup(this.marker4.name).addTo(this.map);
+    .bindPopup(this.marker4.name).addTo(this.map)
+    .on('click', () => {
+      this.getInfoPlace('4');
+    });
 
     // L.marker([markers[1]['geolocation']['lat'],markers[1]['geolocation']['lng']], {draggable: false}).bindPopup(markers[1]['name']).addTo(this.map);
     // L.marker([markers[2]['geolocation']['lat'],markers[2]['geolocation']['lng']], {draggable: false}).bindPopup(markers[2]['name']).addTo(this.map);
@@ -328,8 +340,10 @@ export class HomePage {
     }
   }
 
-  getInfoPlace() {
-    
+  getInfoPlace(id: string) {
+    clearInterval(this.keepUpdated);
+    this.markerName = this.data.getPlace(id).name;
+    this.imgLink = `../../../assets/img/${this.data.getPlace(id).img.url}`;
   }
 
   //.............................................................................
