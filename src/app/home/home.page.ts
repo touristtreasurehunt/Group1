@@ -158,29 +158,30 @@ export class HomePage {
     this.imgContainer = document.querySelector('.image-container');
 
     // ELIMINAR ESTA CONDICIÓN CUANDO SE MUESTRE INFO DE OTROS MARCADORES!
-    if (!this.showText) {
-      // Add a setInterval to update and check the distances ranges
-      this.keepUpdated = setInterval(() => {
-        if (this.randomNumberList.length === this.layers.length) {
-          setTimeout(() => this.showBtn = true, 3000);
-          this.removeImage();
-          clearInterval(this.keepUpdated);
-        }
+    // if (!this.showText) {
+    //   // Add a setInterval to update and check the distances ranges
+    //   this.keepUpdated = setInterval(() => {
+    //     if (this.randomNumberList.length === this.layers.length) {
+    //       setTimeout(() => this.showBtn = true, 3000);
+    //       this.removeImage();
+    //       clearInterval(this.keepUpdated);
+    //     }
 
-        if (
-          !this.firtDistance['distance'].isDistance &&
-          this.distanceMap != undefined
-        ) {
-          this.distance = this.distanceMap;
-          this.distance1 = this.distance / 4;
-          this.distance2 = this.distance1 * 2;
-          this.distance3 = this.distance1 * 3;
-          this.distance4 = this.distance;
-          this.firtDistance['distance'].isDistance = true;
-        }
-        this.allChecks();
-      }, 3000);
-    }
+    //     if (
+    //       !this.firtDistance['distance'].isDistance &&
+    //       this.distanceMap != undefined
+    //     ) {
+    //       this.distance = this.distanceMap;
+    //       this.distance1 = this.distance / 4;
+    //       this.distance2 = this.distance1 * 2;
+    //       this.distance3 = this.distance1 * 3;
+    //       this.distance4 = this.distance;
+    //       this.firtDistance['distance'].isDistance = true;
+    //     }
+    //     this.allChecks();
+    //   }, 3000);
+    // }
+    this.createInterval();
 
     //..................................................................................
   }
@@ -299,6 +300,36 @@ export class HomePage {
     this.checkDisplayLayer('range3');
     this.checkDisplayLayer('range4');
     console.log('currentDistance SIMULATION', this.currentDistance);
+  }
+
+  createInterval() {
+    if (!this.showText) {
+      // Add a setInterval to update and check the distances ranges
+      this.keepUpdated = setInterval(() => {
+        if (this.randomNumberList.length === this.layers.length) {
+          setTimeout(() => (this.showBtn = true), 3000);
+          this.removeImage();
+          clearInterval(this.keepUpdated);
+        }
+
+        if (
+          !this.firtDistance["distance"].isDistance &&
+          this.distanceMap != undefined
+        ) {
+          this.distance = this.distanceMap;
+          this.distance1 = this.distance / 4;
+          this.distance2 = this.distance1 * 2;
+          this.distance3 = this.distance1 * 3;
+          this.distance4 = this.distance;
+          this.firtDistance["distance"].isDistance = true;
+        }
+        this.allChecks();
+      }, 3000);
+    }
+  }
+
+  getInfoPlace() {
+    
   }
 
   //.............................................................................
