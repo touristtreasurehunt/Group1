@@ -338,7 +338,7 @@ export class HomePage {
       this.showBtn = false;
     }
   }
-  
+
   setMarkers(id: string) {
     L.marker([this.data.getPlace(id).geolocation.lat, this.data.getPlace(id).geolocation.lng], {
       draggable: false
