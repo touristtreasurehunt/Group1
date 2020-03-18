@@ -4,9 +4,8 @@ import * as L from 'leaflet';
 import { ModalController, NavController } from '@ionic/angular';
 import { ModalQuestionPage } from '../pages/modal-question/modal-question.page';
 import { DataService } from '../services/data.service';
+import { Storage } from '@ionic/storage';
 
-
-import * as markers from '../../../markers-data.json';
 
 @Component({
   selector: 'app-home',
@@ -58,11 +57,14 @@ export class HomePage {
 
   showBtn = false;
   showText = false;
+  startInterval = false;
 
   marker1: any;
   marker2: any;
   marker3: any;
   marker4: any;
+
+  ids: string;
 
   //..............................................................................
 
@@ -70,6 +72,7 @@ export class HomePage {
     public modalController: ModalController,
     private data: DataService,
     private navCtrl: NavController,
+    private storage: Storage
   ) {
     this.imgLink = `../../../assets/img/${
       this.data.getPlace(this.markerId).img.url
@@ -105,32 +108,48 @@ export class HomePage {
     //Another markers
 
     // Marker 1
-    L.marker([this.marker1.geolocation.lat, this.marker1.geolocation.lng], {draggable: false})
-    .bindPopup(this.marker1.name).addTo(this.map)
-    .on('click', () => {
-      this.getInfoPlace('1');
-    });
+    L.marker([this.marker1.geolocation.lat, this.marker1.geolocation.lng], {
+      draggable: false
+    })
+      .bindPopup(this.marker1.name)
+      .addTo(this.map)
+      .on('click', () => {
+        // this.getInfoPlace('1');
+        this.checkGetInfoPlace('1');
+      });
 
     // Marker 2
-    L.marker([this.marker2.geolocation.lat, this.marker2.geolocation.lng], {draggable: false})
-    .bindPopup(this.marker2.name).addTo(this.map)
-    .on('click', () => {
-      this.getInfoPlace('2');
-    });
+    L.marker([this.marker2.geolocation.lat, this.marker2.geolocation.lng], {
+      draggable: false
+    })
+      .bindPopup(this.marker2.name)
+      .addTo(this.map)
+      .on('click', () => {
+        // this.getInfoPlace('2');
+        this.checkGetInfoPlace('2');
+      });
 
     // Marker 3
-    L.marker([this.marker3.geolocation.lat, this.marker3.geolocation.lng], {draggable: false})
-    .bindPopup(this.marker3.name).addTo(this.map)
-    .on('click', () => {
-      this.getInfoPlace('3');
-    });
+    L.marker([this.marker3.geolocation.lat, this.marker3.geolocation.lng], {
+      draggable: false
+    })
+      .bindPopup(this.marker3.name)
+      .addTo(this.map)
+      .on('click', () => {
+        // this.getInfoPlace('3');
+        this.checkGetInfoPlace('3');
+      });
 
     // Marker 4
-    L.marker([this.marker4.geolocation.lat, this.marker4.geolocation.lng], {draggable: false})
-    .bindPopup(this.marker4.name).addTo(this.map)
-    .on('click', () => {
-      this.getInfoPlace('4');
-    });
+    L.marker([this.marker4.geolocation.lat, this.marker4.geolocation.lng], {
+      draggable: false
+    })
+      .bindPopup(this.marker4.name)
+      .addTo(this.map)
+      .on('click', () => {
+        // this.getInfoPlace('4');
+        this.checkGetInfoPlace('4');
+      });
 
     // L.marker([markers[1]['geolocation']['lat'],markers[1]['geolocation']['lng']], {draggable: false}).bindPopup(markers[1]['name']).addTo(this.map);
     // L.marker([markers[2]['geolocation']['lat'],markers[2]['geolocation']['lng']], {draggable: false}).bindPopup(markers[2]['name']).addTo(this.map);
@@ -161,7 +180,6 @@ export class HomePage {
         }
       });
 
-
     //setInterval(() =>{ this.prueba(); }, 3000);
 
     //setInterval Img.............................................................
@@ -169,30 +187,6 @@ export class HomePage {
     this.layers = document.querySelectorAll('.layer');
     this.imgContainer = document.querySelector('.image-container');
 
-    // ELIMINAR ESTA CONDICIÓN CUANDO SE MUESTRE INFO DE OTROS MARCADORES!
-    // if (!this.showText) {
-    //   // Add a setInterval to update and check the distances ranges
-    //   this.keepUpdated = setInterval(() => {
-    //     if (this.randomNumberList.length === this.layers.length) {
-    //       setTimeout(() => this.showBtn = true, 3000);
-    //       this.removeImage();
-    //       clearInterval(this.keepUpdated);
-    //     }
-
-    //     if (
-    //       !this.firtDistance['distance'].isDistance &&
-    //       this.distanceMap != undefined
-    //     ) {
-    //       this.distance = this.distanceMap;
-    //       this.distance1 = this.distance / 4;
-    //       this.distance2 = this.distance1 * 2;
-    //       this.distance3 = this.distance1 * 3;
-    //       this.distance4 = this.distance;
-    //       this.firtDistance['distance'].isDistance = true;
-    //     }
-    //     this.allChecks();
-    //   }, 3000);
-    // }
     this.createInterval();
 
     //..................................................................................
@@ -249,21 +243,15 @@ export class HomePage {
 
   removeImage() {
     setTimeout(() => this.imgContainer.classList.add('animation-layer'), 1500);
-    setTimeout(() => this.imgContainer.style.display = 'none', 2500);
+    setTimeout(() => (this.imgContainer.style.display = 'none'), 2500);
     // setTimeout(() => this.imgContainer.remove(), 2500);
   }
 
   // Check if in every distance range the function only runs once
   checkDisplayLayer(range: string) {
-
     if (!this.distanceRanges[range].isInTheRange) {
       switch (range) {
         case 'range1':
-          // console.log(
-          //   'this.currentDistance >= this.distance3',
-          //   this.currentDistance >= this.distance3
-          // );
-
           if (this.currentDistance >= this.distance3) {
             console.log('1');
             this.displayRandomLayer();
@@ -321,7 +309,7 @@ export class HomePage {
   }
 
   createInterval() {
-    if (!this.showText) {
+    if (this.startInterval || !this.showText) {
       // Add a setInterval to update and check the distances ranges
       this.keepUpdated = setInterval(() => {
         if (this.randomNumberList.length === this.layers.length) {
@@ -347,14 +335,19 @@ export class HomePage {
   }
 
   getInfoPlace(id: string) {
+    this.startInterval = true;
     this.markerId = id;
     clearInterval(this.keepUpdated);
-    this.imgContainer.style.display = 'block';  // ???????????
+    this.imgContainer.style.display = 'block'; // ???????????
     this.setOpacityToLayers();
     this.currentDistance = 0;
     this.randomNumberList = [];
+    this.showText = false;
 
     this.distance = this.distanceMap;
+
+    // Appears again the image
+    this.imgContainer.classList.remove('animation-layer');
 
     // Set distances ranges to false
     // tslint:disable-next-line: forin
@@ -363,7 +356,9 @@ export class HomePage {
     }
 
     this.markerName = this.data.getPlace(this.markerId).name;
-    this.imgLink = `../../../assets/img/${this.data.getPlace(this.markerId).img.url}`;
+    this.imgLink = `../../../assets/img/${
+      this.data.getPlace(this.markerId).img.url
+    }`;
 
     this.createInterval();
   }
@@ -373,6 +368,16 @@ export class HomePage {
     this.layers[1].classList.remove('animation-layer');
     this.layers[2].classList.remove('animation-layer');
     this.layers[3].classList.remove('animation-layer');
+  }
+
+  async checkGetInfoPlace(id: string) {
+    this.ids = await this.storage.get('ids');
+
+    if (this.ids.includes(id)) {
+      this.showText = true;
+    } else {
+      this.getInfoPlace(id);
+    }
   }
 
   //.............................................................................
