@@ -60,10 +60,10 @@ export class HomePage {
   showText = false;
   startInterval = false;
 
-  marker1: any;
-  marker2: any;
-  marker3: any;
-  marker4: any;
+  // marker1: any;
+  // marker2: any;
+  // marker3: any;
+  // marker4: any;
 
   ids: string;
 
@@ -79,10 +79,10 @@ export class HomePage {
       this.data.getPlace(this.markerId).img.url
     }`;
 
-    this.marker1 = data.getPlace('1');
-    this.marker2 = data.getPlace('2');
-    this.marker3 = data.getPlace('3');
-    this.marker4 = data.getPlace('4');
+    // this.marker1 = data.getPlace('1');
+    // this.marker2 = data.getPlace('2');
+    // this.marker3 = data.getPlace('3');
+    // this.marker4 = data.getPlace('4');
   }
 
   async ionViewDidEnter() {
@@ -108,45 +108,50 @@ export class HomePage {
 
     //Another markers
 
-    // Marker 1
-    L.marker([this.marker1.geolocation.lat, this.marker1.geolocation.lng], {
-      draggable: false
-    })
-      .bindPopup(this.marker1.name)
-      .addTo(this.map)
-      .on('click', () => {
-        this.checkGetInfoPlace('1');
-      });
+    this.setMarkers('1');
+    this.setMarkers('2');
+    this.setMarkers('3');
+    this.setMarkers('4');
 
-    // Marker 2
-    L.marker([this.marker2.geolocation.lat, this.marker2.geolocation.lng], {
-      draggable: false
-    })
-      .bindPopup(this.marker2.name)
-      .addTo(this.map)
-      .on('click', () => {
-        this.checkGetInfoPlace('2');
-      });
+    // // Marker 1
+    // L.marker([this.marker1.geolocation.lat, this.marker1.geolocation.lng], {
+    //   draggable: false
+    // })
+    //   .bindPopup(this.marker1.name)
+    //   .addTo(this.map)
+    //   .on('click', () => {
+    //     this.checkGetInfoPlace('1');
+    //   });
 
-    // Marker 3
-    L.marker([this.marker3.geolocation.lat, this.marker3.geolocation.lng], {
-      draggable: false
-    })
-      .bindPopup(this.marker3.name)
-      .addTo(this.map)
-      .on('click', () => {
-        this.checkGetInfoPlace('3');
-      });
+    // // Marker 2
+    // L.marker([this.marker2.geolocation.lat, this.marker2.geolocation.lng], {
+    //   draggable: false
+    // })
+    //   .bindPopup(this.marker2.name)
+    //   .addTo(this.map)
+    //   .on('click', () => {
+    //     this.checkGetInfoPlace('2');
+    //   });
 
-    // Marker 4
-    L.marker([this.marker4.geolocation.lat, this.marker4.geolocation.lng], {
-      draggable: false
-    })
-      .bindPopup(this.marker4.name)
-      .addTo(this.map)
-      .on('click', () => {
-        this.checkGetInfoPlace('4');
-      });
+    // // Marker 3
+    // L.marker([this.marker3.geolocation.lat, this.marker3.geolocation.lng], {
+    //   draggable: false
+    // })
+    //   .bindPopup(this.marker3.name)
+    //   .addTo(this.map)
+    //   .on('click', () => {
+    //     this.checkGetInfoPlace('3');
+    //   });
+
+    // // Marker 4
+    // L.marker([this.marker4.geolocation.lat, this.marker4.geolocation.lng], {
+    //   draggable: false
+    // })
+    //   .bindPopup(this.marker4.name)
+    //   .addTo(this.map)
+    //   .on('click', () => {
+    //     this.checkGetInfoPlace('4');
+    //   });
 
     this.map
       .locate({ setView: true, watch: true })
@@ -417,5 +422,16 @@ export class HomePage {
 
   goToPhotoCollection() {
     this.navCtrl.navigateForward('/photo-collection');
+  }
+
+  setMarkers(id: string) {
+    L.marker([this.data.getPlace(id).geolocation.lat, this.data.getPlace(id).geolocation.lng], {
+      draggable: false
+    })
+      .bindPopup(this.data.getPlace(id).name)
+      .addTo(this.map)
+      .on('click', () => {
+        this.checkGetInfoPlace(id);
+      });
   }
 }
