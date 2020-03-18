@@ -37,6 +37,7 @@ export class HomePage {
   distance3: number;
   distance4: number;
 
+  // Uncomment to work in real-time
   // currentDistance: any; // getRouteDistance() ?
 
   // currentDistance set to 0 to make the SIMULATION
@@ -114,7 +115,6 @@ export class HomePage {
       .bindPopup(this.marker1.name)
       .addTo(this.map)
       .on('click', () => {
-        // this.getInfoPlace('1');
         this.checkGetInfoPlace('1');
       });
 
@@ -125,7 +125,6 @@ export class HomePage {
       .bindPopup(this.marker2.name)
       .addTo(this.map)
       .on('click', () => {
-        // this.getInfoPlace('2');
         this.checkGetInfoPlace('2');
       });
 
@@ -136,7 +135,6 @@ export class HomePage {
       .bindPopup(this.marker3.name)
       .addTo(this.map)
       .on('click', () => {
-        // this.getInfoPlace('3');
         this.checkGetInfoPlace('3');
       });
 
@@ -147,13 +145,8 @@ export class HomePage {
       .bindPopup(this.marker4.name)
       .addTo(this.map)
       .on('click', () => {
-        // this.getInfoPlace('4');
         this.checkGetInfoPlace('4');
       });
-
-    // L.marker([markers[1]['geolocation']['lat'],markers[1]['geolocation']['lng']], {draggable: false}).bindPopup(markers[1]['name']).addTo(this.map);
-    // L.marker([markers[2]['geolocation']['lat'],markers[2]['geolocation']['lng']], {draggable: false}).bindPopup(markers[2]['name']).addTo(this.map);
-    // L.marker([markers[3]['geolocation']['lat'],markers[3]['geolocation']['lng']], {draggable: false}).bindPopup(markers[3]['name']).addTo(this.map);
 
     this.map
       .locate({ setView: true, watch: true })
@@ -189,33 +182,26 @@ export class HomePage {
 
     this.ids = await this.storage.get('ids') || [];
     if (!this.ids.includes(this.markerId)) {
-      // this.showBtn = false;
       this.createInterval();
     }
+    this.checkDefaultPlace();
 
     //..................................................................................
   }
 
-  async ionViewDidLeave() {
-    console.log('this.position cycle', this.position);
+  ionViewDidLeave() {
+    // To get again user position circle
     this.position = undefined;
-    console.log('this.position cycle 2', this.position);
-    // this.showBtn = false;
-    // this.showText = true;
 
     // Check default place
-    this.ids = await this.storage.get('ids') || [];
-    if (this.ids.includes(this.markerId)) {
-      // clearInterval(this.keepUpdated);
-      this.imgContainer.style.display = 'none';
-      this.showText = true;
-      this.showBtn = false;
-    }
+    // this.ids = await this.storage.get('ids') || [];
+    // if (this.ids.includes(this.markerId)) {
+    //   this.imgContainer.style.display = 'none';
+    //   this.showText = true;
+    //   this.showBtn = false;
+    // }
+    this.checkDefaultPlace();
     clearInterval(this.keepUpdated);
-  }
-
-  prueba() {
-    console.log('distancia: ', this.distanceMap);
   }
 
   //Function img.............................................................
@@ -308,7 +294,7 @@ export class HomePage {
   }
 
   allChecks() {
-    // Uncomment this line to make it work
+    // Uncomment this line to make it work in real-time
     // this.currentDistance = this.distanceMap;
     console.log('this.currentDistance', this.currentDistance);
 
@@ -349,16 +335,15 @@ export class HomePage {
   }
 
   getInfoPlace(id: string) {
+    // Reset some variables
     this.startInterval = true;
     this.markerId = id;
     clearInterval(this.keepUpdated);
-    this.imgContainer.style.display = 'block'; // ???????????
+    this.imgContainer.style.display = 'block';
     this.setOpacityToLayers();
     this.currentDistance = 0;
     this.randomNumberList = [];
     this.showText = false;
-
-    this.distance = this.distanceMap;
 
     // Appears again the image
     this.imgContainer.classList.remove('animation-layer');
@@ -394,6 +379,15 @@ export class HomePage {
       this.showBtn = false;
     } else {
       this.getInfoPlace(id);
+    }
+  }
+
+  async checkDefaultPlace() {
+    this.ids = (await this.storage.get('ids')) || [];
+    if (this.ids.includes(this.markerId)) {
+      this.imgContainer.style.display = 'none';
+      this.showText = true;
+      this.showBtn = false;
     }
   }
 
