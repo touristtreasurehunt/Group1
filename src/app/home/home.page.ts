@@ -59,6 +59,11 @@ export class HomePage {
   showBtn = false;
   showText = false;
 
+  marker1: any;
+  marker2: any;
+  marker3: any;
+  marker4: any;
+
   //..............................................................................
 
   constructor(
@@ -69,6 +74,11 @@ export class HomePage {
     this.imgLink = `../../../assets/img/${
       this.data.getPlace(this.markerId).img.url
     }`;
+
+    this.marker1 = data.getPlace('1');
+    this.marker2 = data.getPlace('2');
+    this.marker3 = data.getPlace('3');
+    this.marker4 = data.getPlace('4');
   }
 
   ionViewDidEnter() {
@@ -93,9 +103,26 @@ export class HomePage {
     }).addTo(this.map);
 
     //Another markers
-    L.marker([markers[1]['geolocation']['lat'],markers[1]['geolocation']['lng']], {draggable: false}).bindPopup(markers[1]['name']).addTo(this.map);
-    L.marker([markers[2]['geolocation']['lat'],markers[2]['geolocation']['lng']], {draggable: false}).bindPopup(markers[2]['name']).addTo(this.map);
-    L.marker([markers[3]['geolocation']['lat'],markers[3]['geolocation']['lng']], {draggable: false}).bindPopup(markers[3]['name']).addTo(this.map);
+
+    // Marker 1
+    L.marker([this.marker1.geolocation.lat, this.marker1.geolocation.lng], {draggable: false})
+    .bindPopup(this.marker1.name).addTo(this.map);
+
+    // Marker 2
+    L.marker([this.marker2.geolocation.lat, this.marker2.geolocation.lng], {draggable: false})
+    .bindPopup(this.marker2.name).addTo(this.map);
+
+    // Marker 3
+    L.marker([this.marker3.geolocation.lat, this.marker3.geolocation.lng], {draggable: false})
+    .bindPopup(this.marker3.name).addTo(this.map);
+
+    // Marker 4
+    L.marker([this.marker4.geolocation.lat, this.marker4.geolocation.lng], {draggable: false})
+    .bindPopup(this.marker4.name).addTo(this.map);
+
+    // L.marker([markers[1]['geolocation']['lat'],markers[1]['geolocation']['lng']], {draggable: false}).bindPopup(markers[1]['name']).addTo(this.map);
+    // L.marker([markers[2]['geolocation']['lat'],markers[2]['geolocation']['lng']], {draggable: false}).bindPopup(markers[2]['name']).addTo(this.map);
+    // L.marker([markers[3]['geolocation']['lat'],markers[3]['geolocation']['lng']], {draggable: false}).bindPopup(markers[3]['name']).addTo(this.map);
 
     this.map
       .locate({ setView: true, watch: true })
@@ -135,7 +162,7 @@ export class HomePage {
       // Add a setInterval to update and check the distances ranges
       this.keepUpdated = setInterval(() => {
         if (this.randomNumberList.length === this.layers.length) {
-          setTimeout(() => this.showBtn = true, 2000);
+          setTimeout(() => this.showBtn = true, 3000);
           this.removeImage();
           clearInterval(this.keepUpdated);
         }
