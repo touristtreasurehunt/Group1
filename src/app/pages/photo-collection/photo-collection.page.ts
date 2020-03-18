@@ -30,7 +30,7 @@ export class PhotoCollectionPage {
   }
 
   async getDataFromStorage() {
-    this.ids = await this.storage.get('ids');
+    this.ids = await this.storage.get('ids') || [];
     this.placeInfo = this.data.getPlacesWithId(this.ids);
   }
 

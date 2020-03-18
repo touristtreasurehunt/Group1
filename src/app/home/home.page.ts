@@ -84,7 +84,7 @@ export class HomePage {
     this.marker4 = data.getPlace('4');
   }
 
-  ionViewDidEnter() {
+  async ionViewDidEnter() {
     console.log('dataService getPlace', this.data.getPlace(this.markerId));
     this.markerName = this.data.getPlace(this.markerId).name;
 
@@ -187,17 +187,31 @@ export class HomePage {
     this.layers = document.querySelectorAll('.layer');
     this.imgContainer = document.querySelector('.image-container');
 
-    this.createInterval();
+    this.ids = await this.storage.get('ids') || [];
+    if (!this.ids.includes(this.markerId)) {
+      // this.showBtn = false;
+      this.createInterval();
+    }
 
     //..................................................................................
   }
 
-  ionViewDidLeave() {
+  async ionViewDidLeave() {
     console.log('this.position cycle', this.position);
     this.position = undefined;
     console.log('this.position cycle 2', this.position);
-    this.showBtn = false;
-    this.showText = true;
+    // this.showBtn = false;
+    // this.showText = true;
+
+    // Check default place
+    this.ids = await this.storage.get('ids') || [];
+    if (this.ids.includes(this.markerId)) {
+      // clearInterval(this.keepUpdated);
+      this.imgContainer.style.display = 'none';
+      this.showText = true;
+      this.showBtn = false;
+    }
+    clearInterval(this.keepUpdated);
   }
 
   prueba() {
@@ -371,10 +385,13 @@ export class HomePage {
   }
 
   async checkGetInfoPlace(id: string) {
-    this.ids = await this.storage.get('ids');
+    this.ids = await this.storage.get('ids') || [];
 
     if (this.ids.includes(id)) {
+      clearInterval(this.keepUpdated);
+      this.imgContainer.style.display = 'none';
       this.showText = true;
+      this.showBtn = false;
     } else {
       this.getInfoPlace(id);
     }
