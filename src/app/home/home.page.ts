@@ -4,9 +4,8 @@ import * as L from 'leaflet';
 import { ModalController, NavController } from '@ionic/angular';
 import { ModalQuestionPage } from '../pages/modal-question/modal-question.page';
 import { DataService } from '../services/data.service';
+import { Storage } from '@ionic/storage';
 
-
-import * as markers from '../../../markers-data.json';
 
 @Component({
   selector: 'app-home',
@@ -38,6 +37,7 @@ export class HomePage {
   distance3: number;
   distance4: number;
 
+  // Uncomment to work in real-time
   // currentDistance: any; // getRouteDistance() ?
 
   // currentDistance set to 0 to make the SIMULATION
@@ -58,6 +58,9 @@ export class HomePage {
 
   showBtn = false;
   showText = false;
+  startInterval = false;
+
+  ids: string;
 
   //..............................................................................
 
@@ -65,20 +68,21 @@ export class HomePage {
     public modalController: ModalController,
     private data: DataService,
     private navCtrl: NavController,
+    private storage: Storage
   ) {
     this.imgLink = `../../../assets/img/${
       this.data.getPlace(this.markerId).img.url
     }`;
   }
 
-  ionViewDidEnter() {
+  async ionViewDidEnter() {
     console.log('dataService getPlace', this.data.getPlace(this.markerId));
     this.markerName = this.data.getPlace(this.markerId).name;
 
     console.log('this.position', this.position);
 
     if (this.map) {
-      console.log("borrar mapa");
+      console.log('borrar mapa');
       this.map.remove();
     }
 
@@ -92,10 +96,11 @@ export class HomePage {
       draggable: false
     }).addTo(this.map);
 
-    //Another markers
-    L.marker([markers[1]['geolocation']['lat'],markers[1]['geolocation']['lng']], {draggable: false}).bindPopup(markers[1]['name']).addTo(this.map);
-    L.marker([markers[2]['geolocation']['lat'],markers[2]['geolocation']['lng']], {draggable: false}).bindPopup(markers[2]['name']).addTo(this.map);
-    L.marker([markers[3]['geolocation']['lat'],markers[3]['geolocation']['lng']], {draggable: false}).bindPopup(markers[3]['name']).addTo(this.map);
+    // Create markers
+    this.setMarkers('1');
+    this.setMarkers('2');
+    this.setMarkers('3');
+    this.setMarkers('4');
 
     this.map
       .locate({ setView: true, watch: true })
@@ -122,7 +127,6 @@ export class HomePage {
         }
       });
 
-
     //setInterval(() =>{ this.prueba(); }, 3000);
 
     //setInterval Img.............................................................
@@ -130,44 +134,22 @@ export class HomePage {
     this.layers = document.querySelectorAll('.layer');
     this.imgContainer = document.querySelector('.image-container');
 
-    // ELIMINAR ESTA CONDICIÓN CUANDO SE MUESTRE INFO DE OTROS MARCADORES!
-    if (!this.showText) {
-      // Add a setInterval to update and check the distances ranges
-      this.keepUpdated = setInterval(() => {
-        if (this.randomNumberList.length === this.layers.length) {
-          setTimeout(() => this.showBtn = true, 2000);
-          this.removeImage();
-          clearInterval(this.keepUpdated);
-        }
-
-        if (
-          !this.firtDistance['distance'].isDistance &&
-          this.distanceMap != undefined
-        ) {
-          this.distance = this.distanceMap;
-          this.distance1 = this.distance / 4;
-          this.distance2 = this.distance1 * 2;
-          this.distance3 = this.distance1 * 3;
-          this.distance4 = this.distance;
-          this.firtDistance['distance'].isDistance = true;
-        }
-        this.allChecks();
-      }, 3000);
+    // Check if the place has already visited
+    this.ids = await this.storage.get('ids') || [];
+    if (!this.ids.includes(this.markerId)) {
+      this.createInterval();
     }
+    this.checkDefaultPlace();
 
     //..................................................................................
   }
 
   ionViewDidLeave() {
-    console.log('this.position cycle', this.position);
+    // To get again user position circle
     this.position = undefined;
-    console.log('this.position cycle 2', this.position);
-    this.showBtn = false;
-    this.showText = true;
-  }
 
-  prueba() {
-    console.log('distancia: ', this.distanceMap);
+    this.checkDefaultPlace();
+    clearInterval(this.keepUpdated);
   }
 
   //Function img.............................................................
@@ -175,7 +157,7 @@ export class HomePage {
   // Add an animation to a layer and remove that layer
   removeLayer(indexLayer: number) {
     this.layers[indexLayer].classList.add('animation-layer');
-    setTimeout(() => this.layers[indexLayer].remove(), 1000);
+    // setTimeout(() => this.layers[indexLayer].remove(), 1000);
   }
 
   // Show an aleatory part of the image depending on a random number
@@ -209,20 +191,15 @@ export class HomePage {
 
   removeImage() {
     setTimeout(() => this.imgContainer.classList.add('animation-layer'), 1500);
-    setTimeout(() => this.imgContainer.remove(), 2500);
+    setTimeout(() => (this.imgContainer.style.display = 'none'), 2500);
+    // setTimeout(() => this.imgContainer.remove(), 2500);
   }
 
   // Check if in every distance range the function only runs once
   checkDisplayLayer(range: string) {
-
     if (!this.distanceRanges[range].isInTheRange) {
       switch (range) {
         case 'range1':
-          console.log(
-            'this.currentDistance >= this.distance3',
-            this.currentDistance >= this.distance3
-          );
-
           if (this.currentDistance >= this.distance3) {
             console.log('1');
             this.displayRandomLayer();
@@ -250,6 +227,11 @@ export class HomePage {
           }
           break;
         case 'range4':
+          console.log(
+            '********** this.currentDistance < this.distance1',
+            this.currentDistance < this.distance1
+          );
+          console.log('********** this.distance1', this.distance1);
           if (this.currentDistance < this.distance1) {
             console.log('4');
             this.displayRandomLayer();
@@ -260,7 +242,7 @@ export class HomePage {
   }
 
   allChecks() {
-    // Uncomment this line to make it work
+    // Uncomment this line to make it work in real-time
     // this.currentDistance = this.distanceMap;
     console.log('this.currentDistance', this.currentDistance);
 
@@ -274,27 +256,122 @@ export class HomePage {
     console.log('currentDistance SIMULATION', this.currentDistance);
   }
 
+  createInterval() {
+    if (this.startInterval || !this.showText) {
+      // Add a setInterval to update and check the distances ranges
+      this.keepUpdated = setInterval(() => {
+        if (this.randomNumberList.length === this.layers.length) {
+          setTimeout(() => (this.showBtn = true), 3000);
+          this.removeImage();
+          clearInterval(this.keepUpdated);
+        }
+
+        if (
+          !this.firtDistance['distance'].isDistance &&
+          this.distanceMap != undefined
+        ) {
+          this.distance = this.distanceMap;
+          this.distance1 = this.distance / 4;
+          this.distance2 = this.distance1 * 2;
+          this.distance3 = this.distance1 * 3;
+          this.distance4 = this.distance;
+          this.firtDistance['distance'].isDistance = true;
+        }
+        this.allChecks();
+      }, 3000);
+    }
+  }
+
+  getInfoPlace(id: string) {
+    // Reset some variables
+    this.startInterval = true;
+    this.markerId = id;
+    clearInterval(this.keepUpdated);
+    this.imgContainer.style.display = 'block';
+    this.setOpacityToLayers();
+    this.currentDistance = 0;
+    this.randomNumberList = [];
+    this.showText = false;
+
+    // Appears again the image
+    this.imgContainer.classList.remove('animation-layer');
+
+    // Set distances ranges to false
+    // tslint:disable-next-line: forin
+    for (const key in this.distanceRanges) {
+      this.distanceRanges[key].isInTheRange = false;
+    }
+
+    this.imgLink = `../../../assets/img/${
+      this.data.getPlace(this.markerId).img.url
+    }`;
+
+    this.createInterval();
+  }
+
+  setOpacityToLayers() {
+    this.layers[0].classList.remove('animation-layer');
+    this.layers[1].classList.remove('animation-layer');
+    this.layers[2].classList.remove('animation-layer');
+    this.layers[3].classList.remove('animation-layer');
+  }
+
+  async checkGetInfoPlace(id: string) {
+    this.ids = await this.storage.get('ids') || [];
+    this.markerName = this.data.getPlace(id).name;
+
+    if (this.ids.includes(id)) {
+      clearInterval(this.keepUpdated);
+      this.imgContainer.style.display = 'none';
+      this.showText = true;
+      this.showBtn = false;
+    } else {
+      this.getInfoPlace(id);
+    }
+  }
+
+  async checkDefaultPlace() {
+    this.ids = (await this.storage.get('ids')) || [];
+    if (this.ids.includes(this.markerId)) {
+      this.imgContainer.style.display = 'none';
+      this.showText = true;
+      this.showBtn = false;
+    }
+  }
+  
+  setMarkers(id: string) {
+    L.marker([this.data.getPlace(id).geolocation.lat, this.data.getPlace(id).geolocation.lng], {
+      draggable: false
+    })
+      .bindPopup(this.data.getPlace(id).name)
+      .addTo(this.map)
+      .on('click', () => {
+        this.checkGetInfoPlace(id);
+      });
+  }
+
   //.............................................................................
 
   //QUESTION.............................................................
 
   async showModal() {
+    let aMarker = this.data.getPlace(this.markerId);
     const modal = await this.modalController.create({
       component: ModalQuestionPage,
       componentProps: {
         question: {
-          q: this.data.getPlace(this.markerId).question
+          q: aMarker.question
         },
         answers: {
-          answer1: this.data.getPlace(this.markerId).options.anotherBadOption,
-          answer2: this.data.getPlace(this.markerId).options.badOption,
-          answer3: this.data.getPlace(this.markerId).options.correct
+          answer1: aMarker.options.anotherBadOption,
+          answer2: aMarker.options.badOption,
+          answer3: aMarker.options.correct
         },
         answer: {
-          rightAnswer: this.data.getPlace(this.markerId).options.correct
+          rightAnswer: aMarker.options.correct
         },
         img: {
-          url: this.data.getPlace(this.markerId).img.url
+          url: aMarker.img.url
         },
         id: this.markerId
       }

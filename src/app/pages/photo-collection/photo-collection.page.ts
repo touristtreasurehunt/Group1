@@ -13,6 +13,7 @@ export class PhotoCollectionPage {
   placeInfo: any;
   ids: any;
   imgPartialUrl = '../../../assets/img/';
+  showText = true;
 
   constructor(
     private navCtrl: NavController,
@@ -30,7 +31,12 @@ export class PhotoCollectionPage {
   }
 
   async getDataFromStorage() {
-    this.ids = await this.storage.get('ids');
+    this.ids = await this.storage.get('ids') || [];
+    console.log("this.ids", this.ids);
+    // !this.ids ? (this.showText = true) : (this.showText = false);
+    if (this.ids.length !== 0) {
+      this.showText = false;
+    }
     this.placeInfo = this.data.getPlacesWithId(this.ids);
   }
 
