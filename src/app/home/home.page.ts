@@ -104,7 +104,7 @@ export class HomePage {
     this.setMarkers('4');
 
     this.map
-      .locate({ watch: true })
+      .locate({ setView: true, watch: true })
       .on('locationfound', (e: any) => {
         // Consultamos si existe y si ya existe le cambiamos la posición
         if (this.position != undefined) {
