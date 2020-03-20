@@ -86,7 +86,8 @@ export class HomePage {
       this.map.remove();
     }
 
-    this.map = L.map('map').setView([43.2603479, -2.933411], 16);
+    this.map = L.map('map');
+    // this.map = L.map('map').setView([43.2603479, -2.933411], 16);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(
       this.map
@@ -338,7 +339,7 @@ export class HomePage {
       this.showBtn = false;
     }
   }
-  
+
   setMarkers(id: string) {
     L.marker([this.data.getPlace(id).geolocation.lat, this.data.getPlace(id).geolocation.lng], {
       draggable: false
