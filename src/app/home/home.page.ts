@@ -86,7 +86,8 @@ export class HomePage {
       this.map.remove();
     }
 
-    this.map = L.map('map').setView([43.2603479, -2.933411], 16);
+    this.map = L.map('map');
+    // this.map = L.map('map').setView([43.2603479, -2.933411], 16);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(
       this.map
