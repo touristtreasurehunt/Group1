@@ -62,6 +62,8 @@ export class HomePage {
 
   ids: string;
 
+  once: boolean;
+
   //..............................................................................
 
   constructor(
@@ -76,6 +78,7 @@ export class HomePage {
   }
 
   async ionViewDidEnter() {
+    this.once = true;
     console.log('dataService getPlace', this.data.getPlace(this.markerId));
     this.markerName = this.data.getPlace(this.markerId).name;
 
@@ -104,12 +107,17 @@ export class HomePage {
     this.setMarkers('4');
 
     this.map
-      .locate({ setView: true, watch: true })
+      // .locate({ setView: true, watch: true })
+      .locate({ watch: true })
       .on('locationfound', (e: any) => {
         // Consultamos si existe y si ya existe le cambiamos la posición
         if (this.position != undefined) {
           this.position.setLatLng([e.latitude, e.longitude]);
-          this.map.setView([e.latitude, e.longitude], 30); // Calculamos la distancia entre la posición actual y el marcador
+          if (this.once) {
+            this.map.setView([e.latitude, e.longitude], 30);
+            this.once = false;
+          }
+          // Calculamos la distancia entre la posición actual y el marcador
           this.distanceMap = Math.round(
             this.map.distance(
               [e.latitude, e.longitude],
@@ -124,7 +132,9 @@ export class HomePage {
           this.position = L.circle([e.latitude, e.longitude], {
             radius: 5
           }).addTo(this.map);
-          this.map.setView([e.latitude, e.longitude], 30);
+          // if (this.once) {
+          //   this.map.setView([e.latitude, e.longitude], 30);
+          // }
         }
       });
 
