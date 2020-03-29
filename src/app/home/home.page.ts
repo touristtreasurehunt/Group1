@@ -13,6 +13,7 @@ import { InfoAppPage } from '../pages/info-app/info-app.page';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss']
 })
+
 export class HomePage {
   map: any;
   distanceMap: any;
