@@ -12,6 +12,8 @@ import { ModalQuestionPageModule } from './pages/modal-question/modal-question.m
 // import { AlertRightAnswerComponent } from '../app/components/alert-right-answer/alert-right-answer.component';
 import { IonicStorageModule } from '@ionic/storage';
 import { InfoImagePageModule } from './pages/info-image/info-image.module';
+import { InfoAppPageModule } from './pages/info-app/info-app.module';
+
 
 
 @NgModule({
@@ -23,7 +25,8 @@ import { InfoImagePageModule } from './pages/info-image/info-image.module';
     IonicStorageModule.forRoot(),
     AppRoutingModule,
     ModalQuestionPageModule,
-    InfoImagePageModule
+    InfoImagePageModule,
+    InfoAppPageModule
   ],
   providers: [
     StatusBar,

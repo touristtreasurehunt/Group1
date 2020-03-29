@@ -5,6 +5,7 @@ import { ModalController, NavController } from '@ionic/angular';
 import { ModalQuestionPage } from '../pages/modal-question/modal-question.page';
 import { DataService } from '../services/data.service';
 import { Storage } from '@ionic/storage';
+import { InfoAppPage } from '../pages/info-app/info-app.page';
 
 
 @Component({
@@ -147,7 +148,7 @@ export class HomePage {
     this.imgContainer = document.querySelector('.image-container');
 
     // Check if the place has already visited
-    this.ids = await this.storage.get('ids') || [];
+    this.ids = (await this.storage.get('ids')) || [];
     if (!this.ids.includes(this.markerId)) {
       this.createInterval();
     }
@@ -304,6 +305,7 @@ export class HomePage {
     this.currentDistance = 0;
     this.randomNumberList = [];
     this.showText = false;
+    this.showBtn = false;
 
     // Appears again the image
     this.imgContainer.classList.remove('animation-layer');
@@ -329,7 +331,7 @@ export class HomePage {
   }
 
   async checkGetInfoPlace(id: string) {
-    this.ids = await this.storage.get('ids') || [];
+    this.ids = (await this.storage.get('ids')) || [];
     this.markerName = this.data.getPlace(id).name;
 
     if (this.ids.includes(id)) {
@@ -352,9 +354,15 @@ export class HomePage {
   }
 
   setMarkers(id: string) {
-    L.marker([this.data.getPlace(id).geolocation.lat, this.data.getPlace(id).geolocation.lng], {
-      draggable: false
-    })
+    L.marker(
+      [
+        this.data.getPlace(id).geolocation.lat,
+        this.data.getPlace(id).geolocation.lng
+      ],
+      {
+        draggable: false
+      }
+    )
       .bindPopup(this.data.getPlace(id).name)
       .addTo(this.map)
       .on('click', () => {
@@ -394,5 +402,12 @@ export class HomePage {
 
   goToPhotoCollection() {
     this.navCtrl.navigateForward('/photo-collection');
+  }
+
+  async presentModalInfo() {
+    const modal = await this.modalController.create({
+      component: InfoAppPage
+    });
+    return await modal.present();
   }
 }
