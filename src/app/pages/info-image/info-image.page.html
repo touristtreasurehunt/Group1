@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Info</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="ion-margin-bottom">{{ place.name }}</ion-card-title>
+      <img [src]="imgPartialUrl + place.img" alt="">
+    </ion-card-header>
+  
+    <ion-card-content>
+      {{ place.info }}
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

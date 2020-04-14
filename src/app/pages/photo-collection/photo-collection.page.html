@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goToHome()">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Photo Collection</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" *ngFor="let place of placeInfo">
+        <div class="img-container">
+          <img [src]="imgPartialUrl + place.img.url" (click)="showModal(place.id)" class="img prueba" />
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <p *ngIf="showText" class="ion-padding">You have not discover any place yet 😢</p>
+</ion-content>
