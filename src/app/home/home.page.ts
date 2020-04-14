@@ -139,6 +139,7 @@ export class HomePage {
           // }
         }
       });
+    
 
     //setInterval(() =>{ this.prueba(); }, 3000);
 
